@@ -53,7 +53,7 @@ validate Phase在compile之前，这样保障了代码生成在编译之前。
 
  |- global.xml 一些全局定义   
  |- code-father-config.properties  全局的参数定义   
- |----entities   数据结构定义XML文件存放的位置
+ |----entities   数据结构定义XML文件存放的位置   
  |----templates   模板文件目录，模板使用的是freemarker格式的   
  		|------ context   基于全部entity生成文件的模板   
  		|------ single    为entity单独生成文件的模板   
