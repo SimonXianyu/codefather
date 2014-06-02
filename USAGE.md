@@ -10,15 +10,15 @@ Code-Father 是我按照 模板跟着项目走，entity的field的属性可以�
 	*  [相关文件路径](#conf_path)
 	*  [生成的文件说明](#gen_files)
 *  [entity定义文件说明](#entity_files)
-	*  [entity](#def_entity)
-	*  [property](#def_key)
-	*  [property](#def_property)
+	*  [entity标签属性说明](#def_entity)
+	*  [key标签属性说明](#def_key)
+	*  [property标签属性说明](#def_property)
 	
 	
-<a id="config"/>
+<a id="config" name="config"></a>
 ##项目中配置和文件路径
 
-<a id="conf_maven"/>
+<a id="conf_maven" name="conf_maven"></a>
 ###maven配置
 
 在pom.xml中添加如下内容即可：
@@ -46,8 +46,7 @@ Code-Father 是我按照 模板跟着项目走，entity的field的属性可以�
 
 validate Phase在compile之前，这样保障了代码生成在编译之前。
 
-<a id="conf_path"/>
-###相关文件路径
+###<a id="conf_path" name="conf_path"></a>相关文件路径
 
 默认在 src/main/codefather下，有如下的目录结构
 
@@ -58,12 +57,12 @@ validate Phase在compile之前，这样保障了代码生成在编译之前。
  		|------ context   基于全部entity生成文件的模板   
  		|------ single    为entity单独生成文件的模板   
 
-<a id="gen_files" />
+<a id="gen_files" name="gen_files"></a>
 ###生成的文件说明
 
 生成的文件的文件名和位置 按模板同名的properties中的定义。
 
-<a id="entity_files" />
+<a id="entity_files"  name="entity_files"></a>
 ##entity定义文件说明
  
 entity 定义文件使用的是xml 格式。默认使用xml的文件名作为Entity的类名和表名(表名可以在xml中用table属性重新定义)。   
@@ -77,7 +76,7 @@ entity 定义文件使用的是xml 格式。默认使用xml的文件名作为Ent
 每个标签有一些固定属性。但可以在项目中 自定义新的属性。比如使用了customAttr，则在模板中，可以使用 entity.attrMap.customAttr 的形式访问。  
 因此，扩展属性其实也是跟着项目走的。最好要看模板中如何使用，到模板文件中查找更直观。
   
-<a id="def_entity" />
+<a id="def_entity"  name="def_entity"></a>
 ###entity的属性
 ######固定属性：
 
@@ -92,7 +91,7 @@ entity 定义文件使用的是xml 格式。默认使用xml的文件名作为Ent
 * ignoreJspIncList  不生成 inc-list.jsp	
 * ignoreController	不生成 backend里的controller	
 
-<a id="def_key" />
+<a id="def_key"  name="def_key"></a>
 ###key标签属性说明
 
 * name    键名，单词，用下划线分割
@@ -100,7 +99,7 @@ entity 定义文件使用的是xml 格式。默认使用xml的文件名作为Ent
 * generated  true/false  是否是自动生成。 键是组合时不起作用。
 * length   在类定义的@Column annotation中声明的长度
 
-<a id="def_property" />
+<a id="def_property"  name="def_property"></a>
 ###property标签属性说明
 
 * name     字段英文名
