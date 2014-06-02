@@ -21,26 +21,28 @@ Code-Father 是我按照 模板跟着项目走，entity的field的属性可以�
 
 在pom.xml中添加如下内容即可：
 
-	<build>
-        <plugins>
-            <plugin>
-                <groupId>person.xianyu.haiping.dev</groupId>
-                <artifactId>code-father-plugin</artifactId>
-                <version>0.0.3-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <id>generate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>code-generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-    
-在 validate Phase在compile之前，这样保障了代码生成在编译之前。
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>person.xianyu.haiping.dev</groupId>
+            <artifactId>code-father-plugin</artifactId>
+            <version>0.0.3-SNAPSHOT</version>
+            <executions>
+                <execution>
+                    <id>generate</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>code-generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```    
+
+validate Phase在compile之前，这样保障了代码生成在编译之前。
 
 <h3 id="conf_path">相关文件路径</h3>
 
