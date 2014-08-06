@@ -13,6 +13,8 @@ Code-Father 是我按照 模板跟着项目走，entity的field的属性可以�
 	*  [entity标签属性说明](#def_entity)
 	*  [key标签属性说明](#def_key)
 	*  [property标签属性说明](#def_property)
+*  [使用中需要注意的问题](#use_info)
+	*  [代码提交](#use_code_commit) 
 	
 	
 <a id="config" name="config"></a>
@@ -94,7 +96,7 @@ entity 定义文件使用的是xml 格式。默认使用xml的文件名作为Ent
 <a id="def_key"  name="def_key"></a>
 ###key标签属性说明
 
-* name    键名，单词，用下划线分割
+* name    键名，只能用小写英文字母，用下划线_分割单词
 * type    字段类型
 * generated  true/false  是否是自动生成。 键是组合时不起作用。
 * length   在类定义的@Column annotation中声明的长度
@@ -102,13 +104,19 @@ entity 定义文件使用的是xml 格式。默认使用xml的文件名作为Ent
 <a id="def_property"  name="def_property"></a>
 ###property标签属性说明
 
-* name     字段英文名
+* name     字段名，只能用小写英文字母，用下划线_分割单词
 * text     字段中文名
 * type     字段类型
 * length   在类定义的@Column annotation中声明的长度
 * nullable   可否为null
 * nogrid     扩展属性，数值为 1 时，表示不在生成的页面表格列中显示
 
+
+<a id="use_info"></a>
+##使用中需要注意的问题
+
+<a id="use_code_commit"><a>
+### 代码提交
 
 
 
