@@ -1,20 +1,47 @@
 package com.github.SimonXianyu.codefather.templates;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Properties;
 
 /**
+ * Class to hold template path name and configuration in properties file form
  * Created by simon on 14-7-31.
  */
 public class TemplateDef {
     private String path = "";
     private String name;
     private String fullname;
+    /**
+     * Properties defined for the template.
+     * The values could be an expression which is evaluated before process the template according to entity context.
+     */
     private Properties config;
 
-    public TemplateDef(String tname, TemplateNode node) {
-        this.name=tname;
-        this.path = node.getPath();
-        this.fullname = tname+'/'+node.getPath();
+    public static TemplateDef createNew(String path, TemplateNode node, Properties config) throws TemplateDefCreateException {
+        if (config == null) {
+            throw new RuntimeException("each template must have a configuration properties file.");
+        }
+        assertPropertyExist(config, "outputPath");
+        assertPropertyExist(config, "outputFilename");
+        return new TemplateDef(path, node, config);
+    }
+
+    private static void assertPropertyExist(Properties config, String key) throws TemplateDefCreateException {
+        if (!config.containsKey(key)) {
+            throw new TemplateDefCreateException(" Configuration must include "+key);
+        }
+        String o = config.getProperty(key);
+        if (StringUtils.isBlank(StringUtils.trimToNull(o))) {
+            throw new TemplateDefCreateException(" Configuration item "+key+" should not be blank");
+        }
+    }
+
+    public TemplateDef(String path, TemplateNode node, Properties config) {
+        this.path = path;
+        this.name = node.getPath();
+        this.fullname = path+'/'+node.getPath();
+        this.config = config;
     }
 
     public String getPath() {

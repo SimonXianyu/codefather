@@ -1,5 +1,6 @@
 package com.github.SimonXianyu.codefather.templates;
 
+import com.github.SimonXianyu.codefather.util.CodeFatherException;
 import com.github.SimonXianyu.codefather.util.EvaluateProperties;
 import org.codehaus.plexus.util.IOUtil;
 
@@ -16,12 +17,15 @@ public class TemplateCollector {
     private File baseDir;
     private TemplateNode node;
 
-    public static TemplateCollector createInstance(String pathString) {
-        File dir = new File(pathString);
+    public static TemplateCollector createInstance(File dir) {
         if (!dir.exists() || !dir.isDirectory()) {
             throw new RuntimeException("path should be an existing directory");
         }
         return new TemplateCollector(dir);
+    }
+    public static TemplateCollector createInstance(String pathString) {
+        File dir = new File(pathString);
+        return createInstance(dir);
     }
     private TemplateCollector(File dir) {
         this.baseDir = dir;
@@ -66,13 +70,19 @@ public class TemplateCollector {
                     continue;
                 }
                 String ext = name.substring(pos+1);
-                if (!"ftl".equals(ext)) {
+                if (!"ftl".equals(ext)) { // make sure freemarker file collected.
                     continue;
                 }
 
                 String tname = name.substring(0, pos);
-                tryToReadConfig(dir, tname);
-                TemplateDef def = new TemplateDef(tname, node);
+                Properties props = tryToReadConfig(dir, tname);
+                TemplateDef def = null;
+                try {
+                    def = TemplateDef.createNew(tname, node, props);
+                } catch (TemplateDefCreateException e) {
+//                    e.printStackTrace();
+                    throw new CodeFatherException("template-create", "Failed to collect template "+tname ,e);
+                }
                 node.appendTemplate(tname, def);
 
             }
@@ -83,9 +93,9 @@ public class TemplateCollector {
         String fname = tname + ".properties";
         File f = new File(dir, fname);
         if (!f.exists()) {
-            throw new RuntimeException("Not found : "+dir.getAbsolutePath()+"/"+fname);
+            throw new CodeFatherException( "no-properties-file","Not found : "+dir.getAbsolutePath()+"/"+fname);
         }
-        Properties prop = new EvaluateProperties();
+        Properties prop = new Properties();
         FileInputStream fin = null;
         try {
             fin = new FileInputStream(f);
