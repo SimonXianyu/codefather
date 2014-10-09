@@ -5,9 +5,10 @@ import java.util.List;
 
 /**
  * This class is used to describe a entity definition.
+ * Use this to validate entity definition.
  * Created by simon on 14-6-19.
  */
-public class EntityDesc {
+public class EntityDefDesc {
     private List<AttributeDef> attributeDefs = new ArrayList<AttributeDef>();
 
     public List<AttributeDef> getAttributeDefs() {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<global>
+    <property-set id="modification-user-time">
+        <property name="created_at" type="date" />
+        <property name="created_by" type="string" />
+        <property name="updated_at" type="date" />
+        <property name="updated_by" type="string" />
+    </property-set>
+</global>

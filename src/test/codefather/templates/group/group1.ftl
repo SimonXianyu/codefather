@@ -1,0 +1,1 @@
+Just Used to test template collection.
