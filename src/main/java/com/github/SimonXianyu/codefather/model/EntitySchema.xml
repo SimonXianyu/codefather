@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entity-desc>
+    <table>
+        <attr name="table" required="false" type="string"/>
+        <attr name="urlname" required="false" type="string"/>
+        <attr name="ignores" required="false" type="string-list" />
+    </table>
+
+    <property>
+
+    </property>
+</entity-desc>

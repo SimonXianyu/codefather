@@ -1,6 +1,7 @@
 package com.github.SimonXianyu.codefather.model;
 
 /**
+ * Pojo for store attributes definition.
  * Created by simon on 14-6-19.
  */
 public class AttributeDef {

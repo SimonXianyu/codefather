@@ -10,7 +10,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 
 /**
- * Mojo class of code generation
+ * Mojo class of code generation.
  * Created by simon on 14-6-20.
  * @author Simon Xianyu
  * @goal generate
