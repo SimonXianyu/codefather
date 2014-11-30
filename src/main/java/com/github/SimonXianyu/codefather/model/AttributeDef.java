@@ -5,16 +5,24 @@ package com.github.SimonXianyu.codefather.model;
  * Created by simon on 14-6-19.
  */
 public class AttributeDef {
-    private boolean fixed;
     private String name;
-    private AttrValueType type;
+    private AttrValueType attrType;
+    private String defaultValue;
+    private boolean required;
+    private boolean basic;
+    /** Available values, separated by a comma. Ex. "0,1" */
+    private String enums;
 
-    public boolean isFixed() {
-        return fixed;
-    }
-
-    public void setFixed(boolean fixed) {
-        this.fixed = fixed;
+    @Override
+    public String toString() {
+        return "AttributeDef{" +
+                "name='" + name + '\'' +
+                ", type=" + attrType +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", required=" + required +
+                ", basic=" + basic +
+                ", enums='" + enums + '\'' +
+                '}';
     }
 
     public String getName() {
@@ -25,11 +33,55 @@ public class AttributeDef {
         this.name = name;
     }
 
-    public AttrValueType getType() {
-        return type;
+    public void setType(String typeName) {
+        this.attrType = AttrValueType.fromString(typeName);
     }
 
-    public void setType(AttrValueType type) {
-        this.type = type;
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
+
+    public boolean isBasic() {
+        return basic;
+    }
+
+    public void setBasic(boolean basic) {
+        this.basic = basic;
+    }
+
+    public String getEnums() {
+        return enums;
+    }
+
+    public void setEnums(String enumValues) {
+        this.enums = enumValues;
+    }
+
+    public String getDefault() {
+        return defaultValue;
+    }
+
+    public void setDefault(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public AttrValueType getAttrType() {
+        return attrType;
+    }
+
+    public void setAttrType(AttrValueType attrType) {
+        this.attrType = attrType;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

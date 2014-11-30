@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entity-desc>
+    <entity>
+        <attr name="table" required="false" type="string"/>
+        <attr name="urlname" required="false" type="string"/>
+
+        <!-- 模板处理相关，忽略列表 -->
+        <attr name="ignores" required="false" type="string-list" />
+
+        <!-- jsp related -->
+        <attr name="jsp-inc-list" required="false" type="num_bool"/>
+        <attr name="jsp-inc-edit" required="false" type="num_bool" />
+        <attr name="jsp-confirm-field" required="false" type="string"/>
+
+    </entity>
+
+    <key>
+        <attr name="generated" type="boolean" default="true" basic="true"/>
+    </key>
+
+    <property>
+        <attr name="name" required="true" type="string" basic="true" />
+        <attr name="type" required="true" type="string" basic="true"/>
+        <attr name="length" required="false" type="int" />
+
+        <attr name="default" required="false" type="string" />
+
+        <attr name="text" required="false" type="string" /><!-- 字段显示名 -->
+
+        <!--jsp relate -->
+        <!-- 不在表格中显示 -->
+        <attr name="jsp-noGrid" required="false" type="int" default="0" enum="0,1"/>
+        <attr name="jsp-noEdit" required="false" type="int" default="0" enum="0,1"/>
+        <attr name="jsp-inputType" required="false" type="string" />
+        <!-- used to generate options when inputType is select -->
+        <attr name="jsp-valueMap" required="false" type="string" />
+    </property>
+</entity-desc>

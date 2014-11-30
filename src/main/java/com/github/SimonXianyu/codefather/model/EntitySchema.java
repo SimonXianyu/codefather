@@ -1,9 +1,6 @@
 package com.github.SimonXianyu.codefather.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class is used to describe a entity format.
@@ -12,6 +9,22 @@ import java.util.Map;
 public class EntitySchema {
     private Map<String, AttributeDef> modelAttributeMap = new HashMap<String, AttributeDef>();
 
-    private List<AttributeDef> propertyAttributeList = new ArrayList<AttributeDef>();
+    private Map<String, AttributeDef>  propertyAttributeMap = new HashMap<String, AttributeDef>();
+//    private List<AttributeDef> propertyAttributeList = new ArrayList<AttributeDef>();
 
+    public Map<String, AttributeDef> getModelAttributes() {
+        return Collections.unmodifiableMap(modelAttributeMap);
+    }
+
+    public Map<String , AttributeDef> getPropertyAttributes() {
+        return Collections.unmodifiableMap(propertyAttributeMap);
+    }
+
+    public void setModelAttributeMap(Map<String, AttributeDef> modelAttributeMap) {
+        this.modelAttributeMap = modelAttributeMap;
+    }
+
+    public void setPropertyAttributeMap(Map<String, AttributeDef> propertyAttributeMap) {
+        this.propertyAttributeMap = propertyAttributeMap;
+    }
 }
