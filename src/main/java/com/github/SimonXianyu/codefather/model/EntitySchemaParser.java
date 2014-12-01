@@ -1,11 +1,15 @@
 package com.github.SimonXianyu.codefather.model;
 
+import com.github.SimonXianyu.codefather.GenerateMojo;
 import com.github.SimonXianyu.codefather.util.DigesterHelper;
 import com.github.SimonXianyu.codefather.util.LocalUtil;
 import org.apache.commons.digester3.Digester;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -58,6 +62,22 @@ public class EntitySchemaParser {
             e.printStackTrace();
         } finally {
             LocalUtil.closeQuietly(in);
+        }
+    }
+
+    public EntitySchema readEntitySchema(File configDir) throws MojoExecutionException {
+
+        InputStream in2 = null;
+        try {
+            in2 = new FileInputStream(new File(configDir, "EntitySchema.xml"));
+            EntitySchema entitySchema = parseSchema(in2);
+            return entitySchema;
+        } catch (IOException e) {
+            throw new MojoExecutionException("Failed to read EntitySchema.xml",e );
+        } catch (SAXException e) {
+            throw new MojoExecutionException("Failed to parse EntitySchema.xml",e );
+        } finally {
+            LocalUtil.closeQuietly(in2);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.github.SimonXianyu.codefather.util;
 
 /**
- * This file is for .
+ * Class for storing text between tag. such as <description>Content placed here</description>.
  * User: Simon Xianyu
  * Date: 13-7-1
  * Time: 下午2:50

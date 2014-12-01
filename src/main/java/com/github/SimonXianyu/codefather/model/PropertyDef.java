@@ -3,9 +3,8 @@ package com.github.SimonXianyu.codefather.model;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * Class for property definition.
  * User: Simon Xianyu
- * Date: 13-2-2
- * Time: 下午10:08
  */
 public class PropertyDef extends Described {
     protected String name;

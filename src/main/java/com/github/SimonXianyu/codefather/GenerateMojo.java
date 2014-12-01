@@ -9,7 +9,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,18 +80,8 @@ public class GenerateMojo extends AbstractMojo {
             LocalUtil.closeQuietly(in);
         }
 
-        in = null;
-        try {
-            in = new FileInputStream(new File(configDir, "EntitySchema.xml"));
-            EntitySchemaParser parser = new EntitySchemaParser();
-            this.entitySchema = parser.parseSchema(in);
-        } catch (IOException e) {
-            throw new MojoExecutionException("Failed to read EntitySchema.xml",e );
-        } catch (SAXException e) {
-            throw new MojoExecutionException("Failed to parse EntitySchema.xml",e );
-        } finally {
-            LocalUtil.closeQuietly(in);
-        }
+        EntitySchemaParser entitySchemaParser = new EntitySchemaParser();
+        entitySchema = entitySchemaParser.readEntitySchema(configDir);
 
     }
 

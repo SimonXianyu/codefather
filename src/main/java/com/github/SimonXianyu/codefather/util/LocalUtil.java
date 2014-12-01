@@ -8,18 +8,16 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
+ * Collection of commonly used static methods.
  * User: Simon Xianyu
- * Date: 13-2-2
- * Time: 下午10:11
+ * Since 0.0.3
  */
 public class LocalUtil {
 
-
-
     /**
-     * Load Properties by file.
-     * @param properties
-     * @param propFile
+     * Load Properties from file.
+     * @param properties Properties instance
+     * @param propFile java.io.File instance of target file.
      */
     public static void readProperties(Properties properties, File propFile)
         throws IOException
@@ -39,21 +37,23 @@ public class LocalUtil {
         }
     }
 
+    /** Close closeable if variable is not null without throw Exception.*/
     public static void closeQuietly(Closeable closeable) {
         if (closeable!=null) {
             try {
                 closeable.close();
-            } catch (Exception e) {
-
+            } catch (Exception e) {// just ignore
             }
         }
     }
 
-    public static String getStringValue(Map<String, Object> map, String key) {
+    /** Extract a String value if possible without causing NullException */
+    public static String extractStringValue(Map<String, Object> map, String key) {
         return map.get(key) == null ? "":map.get(key).toString();
     }
 
-    public static String getStringValue(Map<String, Object> map, String key, String defaultValue) {
+    /** Extract a String value if possible, return default value when no value for target key. */
+    public static String extractStringValue(Map<String, Object> map, String key, String defaultValue) {
         return map.get(key) == null ? defaultValue:map.get(key).toString();
     }
 }

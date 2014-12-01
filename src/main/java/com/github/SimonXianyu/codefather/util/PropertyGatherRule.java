@@ -5,6 +5,8 @@ import org.xml.sax.Attributes;
 
 /**
  * Rule to collect attributes which are not mapping to POJO's field.
+ * When top instance is ExtraAttributeAware, this rule will iterate attributes and call top's addAttribute with each attribute.
+ * This make definition be expandable..
  * User: Simon Xianyu
  * Date: 13-2-4
  * Time: 上午11:39
