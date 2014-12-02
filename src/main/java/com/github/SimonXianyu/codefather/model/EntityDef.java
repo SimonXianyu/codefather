@@ -67,7 +67,12 @@ public class EntityDef extends Described {
     }
 
     public boolean isTemplateIgnored(String templateName) {
-        return this.ignoreSet.contains(templateName);
+        for(String pattern : ignoreSet) {
+            if (pattern.equalsIgnoreCase(templateName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isSingleKey() {

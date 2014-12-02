@@ -1,10 +1,14 @@
 package com.github.SimonXianyu.codefather;
 
+import com.github.SimonXianyu.codefather.model.EntityCollector;
+import com.github.SimonXianyu.codefather.model.EntityDef;
 import com.github.SimonXianyu.codefather.model.EntitySchema;
 import com.github.SimonXianyu.codefather.model.EntitySchemaParser;
 import com.github.SimonXianyu.codefather.templates.TemplateCollector;
+import com.github.SimonXianyu.codefather.templates.TemplateDef;
 import com.github.SimonXianyu.codefather.util.EvaluateProperties;
 import com.github.SimonXianyu.codefather.util.LocalUtil;
+import freemarker.template.Template;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -14,6 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Mojo class of code generation.
@@ -40,9 +46,13 @@ public class GenerateMojo extends AbstractMojo {
     private File codeFatherDir;
 
     private EvaluateProperties globalProperties;
+    /** Entity schema for validating */
     private EntitySchema entitySchema;
 
-    private TemplateCollector collector;
+    private EntityCollector entityCollector;
+    private TemplateCollector singleTemplateCollector;
+    private TemplateCollector contextTemplateCollector;
+    private FreemarkerRender freemarkerRender;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -54,30 +64,33 @@ public class GenerateMojo extends AbstractMojo {
         collectTemplate();
         collectEntities();
 
+        renderSingleTempleForEachEntity();
+    }
+
+    /**
+     * This method visit template tree for each entity in list, try to render if necessary.
+     */
+    private void renderSingleTempleForEachEntity() throws MojoExecutionException {
+        for(EntityDef entityDef : entityCollector.getEntityDefList()) {
+            for(TemplateDef templateDef : singleTemplateCollector.getTemplateList()) {
+                freemarkerRender.render(entityDef, templateDef, this.globalProperties);
+            }
+        }
     }
 
     private void collectEntities() {
-        // TODO
+        entityCollector = new EntityCollector(new File(codeFatherPath,"entities"));
+        entityCollector.collect();
     }
 
     private void readGlobalConfig() throws MojoExecutionException {
-        // TODO
-        this.codeFatherDir = new File(project.getBasedir(), codeFatherPath);
-        if (!codeFatherDir.exists() || !codeFatherDir.isDirectory()) {
-            throw new MojoExecutionException("codefather directory doesn't exist");
-        }
-
         File configDir = new File(codeFatherDir, "config");
         globalProperties = new EvaluateProperties();
-        InputStream in = null;
+
         try {
-            in = new FileInputStream(new File(configDir, "global.properties"));
-            globalProperties.load(in);
+            LocalUtil.readProperties(globalProperties, new File(configDir, "global.properties"));
         } catch (IOException e) {
-//            e.printStackTrace();
             throw new MojoExecutionException("Failed to load global.properties");
-        } finally {
-            LocalUtil.closeQuietly(in);
         }
 
         EntitySchemaParser entitySchemaParser = new EntitySchemaParser();
@@ -85,8 +98,12 @@ public class GenerateMojo extends AbstractMojo {
 
     }
 
-    private void collectTemplate() {
-        // TODO
+    private void collectTemplate() throws MojoExecutionException {
+        singleTemplateCollector = TemplateCollector.createInstance(new File(codeFatherDir,"templates"),"single");
+        singleTemplateCollector.collect();
+
+        contextTemplateCollector = TemplateCollector.createInstance(new File(codeFatherDir, "templates"), "context");
+        contextTemplateCollector.collect();
     }
 
     /**
@@ -102,7 +119,26 @@ public class GenerateMojo extends AbstractMojo {
             return false;
         }
 
+        File templateDir = new File(codeFatherDir, "templates");
+        if (!templateDir.exists() || !templateDir.isDirectory()) {
+            getLog().error("Failed to find template directory "+templateDir.getPath());
+            return false;
+        }
+        try {
+            freemarkerRender = new FreemarkerRender(templateDir, getLog());
+        } catch (IOException e) {
+            getLog().error("Failed to initialize freemarker render");
+            return false;
+        }
+
         return true;
     }
 
+    public MavenProject getProject() {
+        return project;
+    }
+
+    public void setProject(MavenProject project) {
+        this.project = project;
+    }
 }

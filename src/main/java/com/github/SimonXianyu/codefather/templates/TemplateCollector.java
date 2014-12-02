@@ -2,34 +2,41 @@ package com.github.SimonXianyu.codefather.templates;
 
 import com.github.SimonXianyu.codefather.util.CodeFatherException;
 import com.github.SimonXianyu.codefather.util.EvaluateProperties;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.IOUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
+ * Collector of gathering Templates
  * Created by simon on 14-7-31.
  */
 public class TemplateCollector {
 
     private File baseDir;
+    private String templateSubDirectory="";
     private TemplateNode node;
+    private List<TemplateDef> templateDefList = new ArrayList<TemplateDef>();
 
-    public static TemplateCollector createInstance(File dir) {
+    public static TemplateCollector createInstance(File dir, String subDirectory) throws MojoExecutionException {
         if (!dir.exists() || !dir.isDirectory()) {
             throw new RuntimeException("path should be an existing directory");
         }
-        return new TemplateCollector(dir);
+        File subDir = new File(dir, subDirectory);
+        if (!subDir.exists() || !subDir.isDirectory()) {
+            throw new MojoExecutionException("template directory wrong: "+subDir.getPath());
+        }
+        return new TemplateCollector(subDir, subDirectory);
     }
-    public static TemplateCollector createInstance(String pathString) {
-        File dir = new File(pathString);
-        return createInstance(dir);
-    }
-    private TemplateCollector(File dir) {
+    private TemplateCollector(File dir, String templateSubDirectory) {
         this.baseDir = dir;
         node = new TemplateNode("");
+        this.templateSubDirectory = templateSubDirectory;
     }
 
     public void collect() {
@@ -74,17 +81,17 @@ public class TemplateCollector {
                     continue;
                 }
 
-                String tname = name.substring(0, pos);
-                Properties props = tryToReadConfig(dir, tname);
+                String templateName = name.substring(0, pos);
+                Properties props = tryToReadConfig(dir, templateName);
                 TemplateDef def = null;
                 try {
-                    def = TemplateDef.createNew(tname, node, props);
+                    def = TemplateDef.createNew(templateName, node, props, templateSubDirectory);
                 } catch (TemplateDefCreateException e) {
 //                    e.printStackTrace();
-                    throw new CodeFatherException("template-create", "Failed to collect template "+tname ,e);
+                    throw new CodeFatherException("template-create", "Failed to collect template "+templateName ,e);
                 }
-                node.appendTemplate(tname, def);
-
+                node.appendTemplate(templateName, def);
+                templateDefList.add(def);
             }
         }
     }
@@ -115,5 +122,9 @@ public class TemplateCollector {
 
     public void setNode(TemplateNode node) {
         this.node = node;
+    }
+
+    public List<TemplateDef> getTemplateList() {
+        return templateDefList;
     }
 }

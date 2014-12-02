@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity urlname="videofile" ignoreJspIncList="false"  overwriteEditJsp="false"
+        overwriteListJsp="false" text="视频文件"
+        ignoreMethods="aj_del"
+        jspIncEdit="1"
+        confirmField="title"
+        >
+    <description>视频文件</description>
+
+    <key name="id" type="long"  generated="true" text="ID" />
+    <property name="video_set_id" type="long" inputType="hidden" text="视频系列ID"/>
+    <property name="video_subset_id" type="long" inputType="hidden" text="视频子集ID"/>
+    <property name="title" type="string" text="标题"/>
+    <property name="store_key" type="string" text="保存名"/>
+    <property name="original_name" type="string" text="原文件名" nogrid="1" noEdit="1"/>
+    <property name="file_size" type="long" text="文件大小" nogrid="1" noEdit="1"/>
+    <property name="members" type="text" text="成员" nogrid="1" noEdit="1"/>
+    <property name="file_desc" type="text" text="详情介绍" nogrid="1"/>
+    <!-- enum 型, 备用 1: 七牛 -->
+    <property name="play_type" type="int" text="播放方式" nogrid="1" defaultValue="1" inputType="select" valueList="1:m3u8"/>
+    <!-- 定位字符串 -->
+    <property name="file_locator" type="string" text="文件定位字符串" nogrid="1"/>
+    <property name="subtitle_file" type="string" text="字幕文件" nogrid="1"/>
+
+    <property name="play_password" type="string" text="播放密码" nogrid="1"/>
+
+    <property name="persistent_id1" type="string" text="持久化ID1" nogrid="1" noEdit="1"/>
+    <!-- 0 未处理， 1 处理中， 2 处理完成 -->
+    <property name="persistent_status1" type="int" text="持久化状态1" nogrid="1" noEdit="1"  default="0"/>
+    <property name="persistent_key1" type="string" text="持久化Key1" nogrid="1" noEdit="1"/>
+    <property name="persistent_url1" type="string" text="持久化地址1" nogrid="1" noEdit="1"/>
+
+    <property name="persistent_id2" type="string" text="持久化ID2" nogrid="1" noEdit="1"/>
+    <property name="persistent_status2" type="int" text="持久化状态2" nogrid="1" noEdit="1" default="0"/>
+    <property name="persistent_key2" type="string" text="持久化Key2" nogrid="1" noEdit="1"/>
+    <property name="persistent_url2" type="string" text="持久化地址2" nogrid="1" noEdit="1"/>
+
+    <property name="persistent_id3" type="string" text="持久化ID3" nogrid="1" noEdit="1"/>
+    <property name="persistent_status3" type="int" text="持久化状态3" nogrid="1" noEdit="1"  default="0"/>
+    <property name="persistent_key3" type="string" text="持久化Key3" nogrid="1" noEdit="1"/>
+    <property name="persistent_url3" type="string" text="持久化地址3" nogrid="1" noEdit="1"/>
+    <property name="uploaded" text="上传完成" type="boolean" nogrid="1" noEdit="1" default="false" />
+    <property name="callback_token" text="回调token" nogrid="1" noEdit="1" type="string" />
+    <property name="enabled" text="可用" type="boolean" default="false" />
+</entity>

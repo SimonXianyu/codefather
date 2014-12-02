@@ -1,7 +1,9 @@
 package com.github.SimonXianyu.codefather.templates;
 
+import com.github.SimonXianyu.codefather.util.LocalUtil;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.File;
 import java.util.Properties;
 
 /**
@@ -12,19 +14,20 @@ public class TemplateDef {
     private String path = "";
     private String name;
     private String fullname;
+    private String baseSubDir;
     /**
      * Properties defined for the template.
      * The values could be an expression which is evaluated before process the template according to entity context.
      */
     private Properties config;
 
-    public static TemplateDef createNew(String path, TemplateNode node, Properties config) throws TemplateDefCreateException {
+    public static TemplateDef createNew(String templateName, TemplateNode node, Properties config, String baseSubDir) throws TemplateDefCreateException {
         if (config == null) {
             throw new RuntimeException("each template must have a configuration properties file.");
         }
         assertPropertyExist(config, "outputPath");
         assertPropertyExist(config, "outputFilename");
-        return new TemplateDef(path, node, config);
+        return new TemplateDef(templateName, node, config, baseSubDir);
     }
 
     private static void assertPropertyExist(Properties config, String key) throws TemplateDefCreateException {
@@ -37,11 +40,12 @@ public class TemplateDef {
         }
     }
 
-    public TemplateDef(String path, TemplateNode node, Properties config) {
-        this.path = path;
-        this.name = node.getPath();
-        this.fullname = path+'/'+node.getPath();
+    public TemplateDef(String templateName, TemplateNode node, Properties config, String baseSubDir) {
+        this.path = node.getPath();
+        this.name = templateName;
+        this.fullname = node.getPath()+'/'+templateName;
         this.config = config;
+        this.baseSubDir = baseSubDir;
     }
 
     public String getPath() {
@@ -74,5 +78,12 @@ public class TemplateDef {
 
     public void setConfig(Properties config) {
         this.config = config;
+    }
+
+    public String getLocationName() {
+        if (path ==null|| path.length()==0) {
+            return baseSubDir+ "/"+name+".ftl";
+        }
+        return baseSubDir+"/"+fullname+".ftl";
     }
 }

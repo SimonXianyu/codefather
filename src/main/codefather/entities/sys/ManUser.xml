@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity urlname="muser"
+        text="后台管理用户"
+        java-controller="1"
+        table="man_user"
+        >
+    <description>This is used to store manager user information to local database</description>
+
+    <key name="username" type="string" generated="false" text="用户名(登录ID)" />
+    <property name="password" type="string" nogrid="1" notrans="1" text="密码"/>
+    <property name="disp_name" type="string" text="显示名"/>
+    <property name="mobile" type="string" text="手机号"/>
+    <property name="mail" type="string" text="电子邮件地址"/>
+
+    <property name="created_at" type="date" nogrid="1" noEdit="1" text="创建时间"/>
+    <property name="created_by" type="string" nogrid="1" noEdit="1" text="创建者"/>
+    <property name="updated_at" type="date" nogrid="1" noEdit="1" text="更新时间"/>
+    <property name="updated_by" type="string" nogrid="1" noEdit="1" text="更新者"/>
+    <property name="last_login_time" type="date" noEdit="1" text="最后登录时间"/>
+
+</entity>
