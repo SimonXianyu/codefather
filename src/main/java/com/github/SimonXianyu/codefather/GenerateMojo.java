@@ -65,6 +65,12 @@ public class GenerateMojo extends AbstractMojo {
         collectEntities();
 
         renderSingleTempleForEachEntity();
+        renderWithTotalEntities();
+    }
+
+    private void renderWithTotalEntities() throws MojoExecutionException {
+        freemarkerRender.renderGroup(entityCollector.getEntityDefList(), contextTemplateCollector.getTemplateList(),
+                this.globalProperties);
     }
 
     /**

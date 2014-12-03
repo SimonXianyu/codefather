@@ -3,6 +3,7 @@ import static com.github.SimonXianyu.codefather.templates.TemplateConstants.*;
 import com.github.SimonXianyu.codefather.freemarker.Native2AsciiMethod;
 import com.github.SimonXianyu.codefather.model.EntityDef;
 import com.github.SimonXianyu.codefather.templates.TemplateDef;
+import com.github.SimonXianyu.codefather.util.EvaluateProperties;
 import com.github.SimonXianyu.codefather.util.LocalUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -13,6 +14,7 @@ import org.mvel2.templates.TemplateRuntime;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -142,5 +144,20 @@ public class FreemarkerRender {
         }
 
         return resultContext;
+    }
+
+    public void renderGroup(List<EntityDef> entityDefList, List<TemplateDef> templateList, EvaluateProperties globalProperties) throws MojoExecutionException {
+        Map<String, Object> root = createContext(null, globalProperties);
+        root.put("entityList", entityDefList);
+
+        for(TemplateDef templateDef : templateList) {
+            if (log.isDebugEnabled()) {
+                log.debug("[start] process group template "+templateDef.getFullname());
+            }
+            renderByTemplate(root, templateDef);
+            if (log.isDebugEnabled()) {
+                log.debug("[end] process group template "+templateDef.getFullname());
+            }
+        }
     }
 }
