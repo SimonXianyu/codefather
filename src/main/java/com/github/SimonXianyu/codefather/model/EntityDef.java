@@ -1,5 +1,7 @@
 package com.github.SimonXianyu.codefather.model;
 
+import com.github.SimonXianyu.codefather.model.ignore.IgnoreFactory;
+import com.github.SimonXianyu.codefather.model.ignore.IgnoreMethod;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
@@ -55,20 +57,23 @@ public class EntityDef extends Described {
     /** Store the reference for future usage */
     private EntityDef parentDef;
 
-    private Set<String> ignoreSet = new HashSet<String>();
+    private Set<IgnoreMethod> ignoreSet = new HashSet<IgnoreMethod>();
 
     public void setIgnores(String ignores) {
         String[] strings = StringUtils.split(ignores, ",");
         if (ignores != null) {
             for(String str : strings) {
-                this.ignoreSet.add(str.trim());
+                IgnoreMethod ignoreMethod = IgnoreFactory.createMethod(str.trim());
+                if (null != ignoreMethod) {
+                    this.ignoreSet.add(ignoreMethod);
+                }
             }
         }
     }
 
     public boolean isTemplateIgnored(String templateName) {
-        for(String pattern : ignoreSet) {
-            if (pattern.equalsIgnoreCase(templateName)) {
+        for(IgnoreMethod method : ignoreSet) {
+            if (method.match(templateName)) {
                 return true;
             }
         }
@@ -77,6 +82,22 @@ public class EntityDef extends Described {
 
     public boolean isSingleKey() {
         return this.keyDefSet.size() == 1;
+    }
+
+    public String getJavaPackagePath() {
+        if (this.path.length() == 0) {
+            return "";
+        } else {
+            return "/"+path;
+        }
+    }
+
+    public String getJavaPackageName() {
+        if (this.path.length() == 0) {
+            return "";
+        } else {
+            return "."+path.replaceAll("/", ".");
+        }
     }
 
     public String getUrlName() {
