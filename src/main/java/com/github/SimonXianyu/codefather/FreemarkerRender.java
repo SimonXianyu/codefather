@@ -1,5 +1,7 @@
 package com.github.SimonXianyu.codefather;
 import static com.github.SimonXianyu.codefather.templates.TemplateConstants.*;
+
+import com.github.SimonXianyu.codefather.freemarker.LowUnderMethod;
 import com.github.SimonXianyu.codefather.freemarker.Native2AsciiMethod;
 import com.github.SimonXianyu.codefather.model.EntityDef;
 import com.github.SimonXianyu.codefather.templates.TemplateDef;
@@ -29,6 +31,7 @@ public class FreemarkerRender {
     private boolean autoMakeDirectory = true;
 
     private Native2AsciiMethod native2AsciiMethod = new Native2AsciiMethod();
+    private LowUnderMethod lowUnderMethod = new LowUnderMethod();
 
     public FreemarkerRender(File templateDir, Log log) throws IOException {
         configuration = new Configuration();
@@ -130,6 +133,7 @@ public class FreemarkerRender {
     private Map<String, Object> createContext(Map<String, Object> upperContext, Properties config) {
         Map<String, Object> resultContext = new HashMap<String, Object>();
         resultContext.put("n2a", native2AsciiMethod);
+        resultContext.put("l_u", lowUnderMethod);
         if (upperContext!=null) {
             resultContext.putAll(upperContext);
         }

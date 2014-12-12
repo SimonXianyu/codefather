@@ -60,6 +60,9 @@ public class TemplateCollectorTest {
         assertNotNull(node);
         assertEquals("java", node.getPath());
         assertEquals(1,node.getTemplateDefMap().size());
+
+        TemplateNode backendNode = collector.getNode().getChild("backend");
+        assertNotNull(backendNode);
     }
 
     private TemplateCollector createInstance(String path, String subPath) {

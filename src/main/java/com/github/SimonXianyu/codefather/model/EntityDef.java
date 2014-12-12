@@ -59,6 +59,9 @@ public class EntityDef extends Described {
 
     private Set<IgnoreMethod> ignoreSet = new HashSet<IgnoreMethod>();
 
+
+    private String luName;
+
     public void setIgnores(String ignores) {
         String[] strings = StringUtils.split(ignores, ",");
         if (ignores != null) {
@@ -84,6 +87,14 @@ public class EntityDef extends Described {
         return this.keyDefSet.size() == 1;
     }
 
+    public String getDbTable() {
+        if (table != null) {
+            return table;
+        } else {
+            return getLowUnderlineName();
+        }
+    }
+
     public String getJavaPackagePath() {
         if (this.path.length() == 0) {
             return "";
@@ -104,35 +115,38 @@ public class EntityDef extends Described {
         if (this.attrMap.containsKey("urlname")) {
             return this.attrMap.get("urlname");
         }
-        return this.getLowUnderlineNname();
+        return this.getLowUnderlineName();
     }
     /**
      * Return name in lowercase and underline form.
      * @return low case name whose words are separated by underline.
      */
-    public String getLowUnderlineNname() {
-        StringBuilder strb = new StringBuilder();
-        StringBuilder part = new StringBuilder();
-        for (int i = 0; i < name.length(); ++i) {
-            char ch = name.charAt(i);
-            if ('A' <= ch && 'Z' >= ch) {
-                if (part.length()>0) {
-                    if (strb.length()>0) {
-                        strb.append('_');
+    public String getLowUnderlineName() {
+        if (luName == null) {
+            StringBuilder strb = new StringBuilder();
+            StringBuilder part = new StringBuilder();
+            for (int i = 0; i < name.length(); ++i) {
+                char ch = name.charAt(i);
+                if ('A' <= ch && 'Z' >= ch) {
+                    if (part.length()>0) {
+                        if (strb.length()>0) {
+                            strb.append('_');
+                        }
+                        strb.append(part);
+                        part.delete(0, part.length());
                     }
-                    strb.append(part);
-                    part.delete(0, part.length());
                 }
+                part.append(Character.toLowerCase(ch));
             }
-            part.append(Character.toLowerCase(ch));
-        }
-        if (part.length()>0) {
-            if (strb.length()>0) {
-                strb.append('_');
+            if (part.length()>0) {
+                if (strb.length()>0) {
+                    strb.append('_');
+                }
+                strb.append(part);
             }
-            strb.append(part);
+            this.luName = strb.toString();
         }
-        return strb.toString();
+        return luName;
     }
 
     /** Used in Digester parsing xml */
@@ -177,11 +191,7 @@ public class EntityDef extends Described {
     }
 
     public String getTable() {
-        if (table != null) {
-            return table;
-        } else {
-            return name;
-        }
+        return table;
     }
 
     public void setTable(String table) {
