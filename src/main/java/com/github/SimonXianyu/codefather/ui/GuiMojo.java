@@ -8,8 +8,9 @@ import org.apache.maven.plugin.MojoFailureException;
  * Created by Simon Xianyu on 2014/11/4.
  */
 public class GuiMojo extends AbstractMojo {
+    private MainPanel mainPanel;
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-
+        collectEntity();
     }
 }
