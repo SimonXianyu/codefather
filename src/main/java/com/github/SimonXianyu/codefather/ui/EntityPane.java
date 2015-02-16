@@ -9,7 +9,7 @@ import javax.swing.border.TitledBorder;
 public class EntityPane extends JPanel {
 
     public void initGui() {
-        this.setBorder(new TitledBorder("entity属性"));
+        this.setBorder(new TitledBorder("entity properties"));
 
     }
 }

@@ -1,5 +1,6 @@
 package com.github.SimonXianyu.codefather.model;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,16 +28,20 @@ public class EntityCollector {
     }
 
     public void collect() {
-        walk("");
+        walk("", null );
+    }
+    public void collect(DefaultMutableTreeNode node) {
+        walk("", node );
     }
 
-    protected void walk(String subpath) {
+    protected void walk(String subpath, DefaultMutableTreeNode parentNode) {
         File curDir = new File(baseDir, subpath);
         File[] children = curDir.listFiles();
+        DefaultMutableTreeNode curNode = new DefaultMutableTreeNode(subpath); // currentNode
         for(File f :children) {
             String fileName = f.getName();
             if (f.isDirectory()) {
-                walk(joinName(subpath, fileName));
+                walk(joinName(subpath, fileName), curNode);
             }
             if (!fileName.toLowerCase().endsWith(".xml")) {
                 continue;
@@ -46,6 +51,11 @@ public class EntityCollector {
             def.setPath(subpath);
             this.entityDefList.add(def);
             this.entityDefMap.put(def.getName(), def);
+            DefaultMutableTreeNode defNode = new DefaultMutableTreeNode(def);
+            curNode.add(defNode);
+        }
+        if (null!= parentNode && curNode.getChildCount()>0) {
+            parentNode.add(curNode);
         }
     }
 

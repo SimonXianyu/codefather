@@ -67,4 +67,8 @@ public class MainPanel extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+    public DefaultMutableTreeNode getRootNode() {
+        return rootNode;
+    }
 }
