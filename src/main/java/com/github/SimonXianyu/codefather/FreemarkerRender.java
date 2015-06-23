@@ -2,6 +2,7 @@ package com.github.SimonXianyu.codefather;
 import static com.github.SimonXianyu.codefather.templates.TemplateConstants.*;
 
 import com.github.SimonXianyu.codefather.freemarker.LowUnderMethod;
+import com.github.SimonXianyu.codefather.freemarker.MyDefaultObjectWrapper;
 import com.github.SimonXianyu.codefather.freemarker.Native2AsciiMethod;
 import com.github.SimonXianyu.codefather.model.EntityDef;
 import com.github.SimonXianyu.codefather.templates.TemplateDef;
@@ -37,6 +38,7 @@ public class FreemarkerRender {
         configuration = new Configuration();
         configuration.setDirectoryForTemplateLoading(templateDir);
         configuration.setDefaultEncoding("UTF-8");
+        configuration.setObjectWrapper(new MyDefaultObjectWrapper());
         this.log = log;
     }
 
