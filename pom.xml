@@ -6,7 +6,7 @@
 
     <groupId>com.github.SimonXianyu</groupId>
     <artifactId>code-father-plugin</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <description>This plugin is used to generate source code and other files according to
         templates and definition xml files.</description>
