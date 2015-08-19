@@ -68,6 +68,25 @@
             <version>1.0.1.Final</version>
         </dependency>
 
+        <!-- Mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.31</version>
+        </dependency>
+        <!-- oracle driver -->
+        <!--<dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.4.0</version>
+        </dependency>-->
+        <!-- db2 driver -->
+        <!--<dependency>
+            <groupId>db2jcc</groupId>
+            <artifactId>db2jcc</artifactId>
+            <version>9.7</version>
+        </dependency>-->
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
