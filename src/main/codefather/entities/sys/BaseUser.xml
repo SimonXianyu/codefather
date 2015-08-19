@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entity  java-controller="1" table="BaseUser">
+    <key name="base_user_id" type="integer" generated="false" />
+
+    <property name="login_id" type="varchar" />
+    <property name="password" type="varchar" />
+    <property name="username" type="varchar" />
+    <property name="status_cd" type="varchar" />
+    <property name="record_flag" type="char" />
+    <property name="created_by" type="integer" />
+    <property name="created_at" type="timestamp" />
+    <property name="updated_by" type="integer" />
+    <property name="updated_at" type="timestamp" />
+</entity>
