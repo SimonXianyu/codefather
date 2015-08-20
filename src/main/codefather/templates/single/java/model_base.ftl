@@ -39,11 +39,11 @@ public class ${entity.name}Base
 <#list entity.propertyList as property>
     <#if !property.key>
     protected <@out_java_type property.type /> ${property.camelName}<#switch property.type>
-        <#case 'boolean'><#if property.attrMap['default']?exists>
+        <#case 'boolean'><#if property.attrMap['default']??>
 =${ (property.attrMap['default'] == 'true')?string('Boolean.TRUE','Boolean.FALSE')}</#if><#break >
-        <#case 'string'><#if property.attrMap['default']?exists>="${property.attrMap['default']}"</#if><#break>
-        <#case 'int'><#if property.attrMap['default']?exists>=${property.attrMap['default']}</#if><#break>
-        <#case 'long'><#if property.attrMap['default']?exists>=${property.attrMap['default']}<#t />
+        <#case 'string'><#if property.attrMap['default']??>="${property.attrMap['default']}"</#if><#break>
+        <#case 'int'><#if property.attrMap['default']??>=${property.attrMap['default']}</#if><#break>
+        <#case 'long'><#if property.attrMap['default']??>=${property.attrMap['default']}<#t />
             <#t /><#if !property.attrMap['default']?ends_with('l')>l</#if></#if><#break>
     <#lt /></#switch>;
     </#if>
