@@ -4,7 +4,6 @@ import com.github.SimonXianyu.codefather.model.ignore.IgnoreFactory;
 import com.github.SimonXianyu.codefather.model.ignore.IgnoreMethod;
 import com.github.SimonXianyu.codefather.util.LocalUtil;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.*;
 

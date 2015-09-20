@@ -1,6 +1,7 @@
 package com.github.SimonXianyu.codefather.model;
 
 /**
+ *
  * Created by simon on 14-8-19.
  */
 public class EntityNode {

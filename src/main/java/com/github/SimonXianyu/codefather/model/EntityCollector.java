@@ -1,6 +1,7 @@
 package com.github.SimonXianyu.codefather.model;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,8 @@ public class EntityCollector {
 
     private File baseDir;
 
+    private DefaultMutableTreeNode rootNode = null;
+
     private EntityParser parser = new EntityParser();
 
     public EntityCollector(File targetDir) {
@@ -32,23 +35,31 @@ public class EntityCollector {
     }
 
     public void collect() {
+        collect(null, null);
+    }
+    public void collect(DefaultTreeModel treeModel, DefaultMutableTreeNode node) {
         if (!baseDir.exists()) {
             return;
         }
-        walk("", null );
-    }
-    public void collect(DefaultMutableTreeNode node) {
-        walk("", node );
+        rootNode = node;
+        walk("", treeModel, node );
     }
 
-    protected void walk(String subpath, DefaultMutableTreeNode parentNode) {
+    protected void walk(String subpath, DefaultTreeModel treeModel, DefaultMutableTreeNode parentNode) {
         File curDir = new File(baseDir, subpath);
         File[] children = curDir.listFiles();
-        DefaultMutableTreeNode curNode = new DefaultMutableTreeNode(subpath); // currentNode
+        if (null == children || children.length==0) {
+            return;
+        }
+
         for(File f :children) {
             String fileName = f.getName();
             if (f.isDirectory()) {
-                walk(joinName(subpath, fileName), curNode);
+                DefaultMutableTreeNode curNode = new DefaultMutableTreeNode(f.getName(), true); // currentNode
+                walk(joinName(subpath, fileName), treeModel, curNode);
+                if (curNode.getChildCount()>0 && parentNode!=null) {
+                    parentNode.add(curNode);
+                }
             }
             if (!fileName.toLowerCase().endsWith(".xml")) {
                 continue;
@@ -58,11 +69,11 @@ public class EntityCollector {
             def.setPath(subpath);
             this.entityDefList.add(def);
             this.entityDefMap.put(def.getName(), def);
+
             DefaultMutableTreeNode defNode = new DefaultMutableTreeNode(def);
-            curNode.add(defNode);
-        }
-        if (null!= parentNode && curNode.getChildCount()>0) {
-            parentNode.add(curNode);
+            if (null != parentNode) {
+                parentNode.add(defNode);
+            }
         }
     }
 

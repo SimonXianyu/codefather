@@ -1,12 +1,14 @@
 package com.github.SimonXianyu.codefather.ui;
 
 import com.github.SimonXianyu.codefather.BaseCodeFatherMojo;
+import com.github.SimonXianyu.codefather.model.EntityCollector;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -33,8 +35,10 @@ public class GuiMojo extends BaseCodeFatherMojo {
         mainPanel.initGui();
 
         readGlobalConfig();
-//        collectTemplate();
-        collectEntities();
+        collectTemplate();
+        entityCollector = new EntityCollector(new File(codeFatherPath,"entities"));
+        entityCollector.collect(mainPanel.getTreeModel(), mainPanel.getRootNode());
+        mainPanel.reloadTree();
 
         runFlag.set(true);
         Thread waitingThread= new Thread() {
@@ -57,10 +61,13 @@ public class GuiMojo extends BaseCodeFatherMojo {
         JFrame mainFrame = new JFrame("Code father gui");
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.addWindowListener(new WindowAdapter() {
+
             @Override
             public void windowClosed(WindowEvent e) {
-                super.windowClosed(e);
-                runFlag.set(false);
+                synchronized (lock) {
+                    runFlag.set(false);
+                    lock.notify();
+                }
             }
         });
         mainFrame.setContentPane(mainPanel);

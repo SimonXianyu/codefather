@@ -1,11 +1,12 @@
 package com.github.SimonXianyu.codefather.ui;
 
-import com.github.SimonXianyu.codefather.model.EntityDef;
+import com.github.SimonXianyu.codefather.model.EntityCollector;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
+import java.io.File;
 import java.util.ResourceBundle;
 
 /**
@@ -39,15 +40,18 @@ public class MainPanel extends JPanel {
         entityTabPane.add(resourceBundle.getString("panel.entity.title"), entityPane);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePane, entityTabPane);
+        splitPane.setDividerLocation(140);
         this.setLayout(new BorderLayout());
         this.add(splitPane);
         this.setPreferredSize(new Dimension(500,400));
     }
 
-    private void addRootEntity(EntityDef entityDef) {
-        DefaultMutableTreeNode node = new DefaultMutableTreeNode();
-        node.setUserObject(entityDef);
-        entityTreeModel.insertNodeInto(node, rootNode, rootNode.getChildCount());
+    public void reloadTree() {
+        entityTreeModel.reload(rootNode);
+    }
+
+    public DefaultTreeModel getTreeModel() {
+        return entityTreeModel;
     }
 
     public static void main(String[] args) {
@@ -59,14 +63,17 @@ public class MainPanel extends JPanel {
         mp.setResourceBundle(resourceBundle);
         mp.initGui();
 
-        EntityDef def = new EntityDef();
-        def.setName("TestEntity");
-        mp.addRootEntity(def);
-        def = new EntityDef();
-        def.setName("TestEntity2");
-        mp.addRootEntity(def);
+        EntityCollector entityCollector = new EntityCollector(new File("src/main/codefather/entities"));
+        entityCollector.collect(mp.getTreeModel(), mp.getRootNode());
 
-        mp.entityTreeModel.reload(mp.rootNode);
+//        EntityDef def = new EntityDef();
+//        def.setName("TestEntity");
+//        mp.addRootEntity(def);
+//        def = new EntityDef();
+//        def.setName("TestEntity2");
+//        mp.addRootEntity(def);
+
+        mp.reloadTree();
 
         frame.setContentPane( mp );
         frame.pack();

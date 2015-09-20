@@ -65,10 +65,6 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
         contextTemplateCollector.collect();
     }
 
-    public MavenProject getProject() {
-        return project;
-    }
-
     public void setProject(MavenProject project) {
         this.project = project;
     }
