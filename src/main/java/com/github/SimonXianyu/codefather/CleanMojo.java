@@ -93,7 +93,7 @@ public class CleanMojo extends BaseCodeFatherMojo {
         }
         File outputFile = new File(outputFileDir, outputFilename);
         if (!Boolean.parseBoolean(LocalUtil.extractStringValue(localContext, DIR_CLEAN, "false"))
-                && outputFile.exists()) {
+                || !outputFile.getParentFile().exists() ) {
             return null;
         }
         try {
