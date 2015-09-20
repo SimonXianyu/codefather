@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -17,7 +18,7 @@ public class GuiMojo extends BaseCodeFatherMojo {
 
     private AtomicBoolean runFlag = new AtomicBoolean(false);
 
-    private Object lock = new Object();
+    private final Object lock = new Object();
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -25,8 +26,10 @@ public class GuiMojo extends BaseCodeFatherMojo {
             return;
         }
 
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages/main");
 
         MainPanel mainPanel = new MainPanel();
+        mainPanel.setResourceBundle(resourceBundle);
         mainPanel.initGui();
 
         readGlobalConfig();
@@ -75,4 +78,5 @@ public class GuiMojo extends BaseCodeFatherMojo {
     private boolean init() {
         return !checkCodeFatherPath();
     }
+
 }

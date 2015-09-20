@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 /**
  * Main panel
@@ -18,6 +19,8 @@ public class MainPanel extends JPanel {
     private JTree entityTree;
 
     private EntityPane entityPane;
+
+    private ResourceBundle resourceBundle;
 
     public void initGui() {
         rootNode = new DefaultMutableTreeNode();
@@ -33,7 +36,7 @@ public class MainPanel extends JPanel {
 
         JTabbedPane entityTabPane = new JTabbedPane();
 
-        entityTabPane.add("实体详情", entityPane);
+        entityTabPane.add(resourceBundle.getString("panel.entity.title"), entityPane);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePane, entityTabPane);
         this.setLayout(new BorderLayout());
@@ -48,9 +51,12 @@ public class MainPanel extends JPanel {
     }
 
     public static void main(String[] args) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages/main");
+
         JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         MainPanel mp = new MainPanel();
+        mp.setResourceBundle(resourceBundle);
         mp.initGui();
 
         EntityDef def = new EntityDef();
@@ -70,5 +76,9 @@ public class MainPanel extends JPanel {
 
     public DefaultMutableTreeNode getRootNode() {
         return rootNode;
+    }
+
+    public void setResourceBundle(ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
     }
 }
