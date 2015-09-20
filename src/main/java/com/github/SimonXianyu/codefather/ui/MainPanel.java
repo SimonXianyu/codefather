@@ -30,6 +30,7 @@ public class MainPanel extends JPanel {
         entityTree = new JTree(entityTreeModel);
         entityTree.setRootVisible(false);
         entityTree.setCellRenderer(new EntityTreeRender());
+        entityTree.setShowsRootHandles(true);
         JScrollPane treePane = new JScrollPane(entityTree);
 
 
