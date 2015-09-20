@@ -1,11 +1,14 @@
 package com.github.SimonXianyu.codefather.util;
 
+import com.github.SimonXianyu.codefather.model.KeyDef;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Collection of commonly used static methods.
@@ -55,5 +58,9 @@ public class LocalUtil {
     /** Extract a String value if possible, return default value when no value for target key. */
     public static String extractStringValue(Map<String, Object> map, String key, String defaultValue) {
         return map.get(key) == null ? defaultValue:map.get(key).toString();
+    }
+
+    public static boolean isEmpty(Set<?> keyDefSet) {
+        return keyDefSet == null || keyDefSet.size() == 0;
     }
 }

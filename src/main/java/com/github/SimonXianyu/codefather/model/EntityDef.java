@@ -2,7 +2,9 @@ package com.github.SimonXianyu.codefather.model;
 
 import com.github.SimonXianyu.codefather.model.ignore.IgnoreFactory;
 import com.github.SimonXianyu.codefather.model.ignore.IgnoreMethod;
+import com.github.SimonXianyu.codefather.util.LocalUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.maven.plugin.MojoExecutionException;
 
 import java.util.*;
 
@@ -14,8 +16,7 @@ public class EntityDef extends Described {
 
     private String path = "";
     /**
-     * The name of entity, usually the file name.
-     * First character upper case.
+     * The name of entity, default is Entity file name without extension. Note: First character should be upper case.
      */
     private String name;
 
@@ -84,6 +85,12 @@ public class EntityDef extends Described {
     }
 
     public boolean isSingleKey() {
+        if (LocalUtil.isEmpty(keyDefSet)) {
+            if (null != getParentDef()) {
+                return getParentDef().isSingleKey();
+            }
+            throw new RuntimeException("no key found with entity : "+getName());
+        }
         return this.keyDefSet.size() == 1;
     }
 
@@ -152,14 +159,14 @@ public class EntityDef extends Described {
     /** Used in Digester parsing xml */
     public void addProperty(PropertyDef propertyDef) {
         if (propMap.containsKey(propertyDef.getName())) {
-            throw new RuntimeException("Failed parse entity, because duplicated ");
+            throw new RuntimeException("Failed parse entity, because duplicated : "+getName()+"."+propertyDef.getName());
         }
         this.propMap.put(propertyDef.getName(), propertyDef);
         this.propertyList.add(propertyDef);
         if (propertyDef instanceof KeyDef) {
             for(KeyDef keyDef : this.keyDefSet) {
                 if (keyDef.getName().equals(propertyDef.getName())) {
-                    throw new RuntimeException("Key name must not be duplicated");
+                    throw new RuntimeException("Key name must not be duplicated: "+getName()+"."+keyDef.getName());
                 }
             }
             this.keyDefSet.add((KeyDef) propertyDef);
@@ -198,6 +205,15 @@ public class EntityDef extends Described {
         this.table = table;
     }
 
+    public List<PropertyDef> getNonKeyInheritedProperties() {
+        List<PropertyDef> propList = new ArrayList<PropertyDef>();
+        propList.addAll(nonKeyPropertyList);
+        if (getParentDef() != null) {
+            propList.addAll(getParentDef().getNonKeyInheritedProperties());
+        }
+        return propList;
+    }
+
     public List<PropertyDef> getPropertyList() {
         return Collections.unmodifiableList(propertyList);
     }
@@ -206,12 +222,21 @@ public class EntityDef extends Described {
         return Collections.unmodifiableList(nonKeyPropertyList);
     }
 
+    /** Get keyDef recursively */
     public KeyDef getKeyDef() {
-        if (this.keyDefSet.size()==1) {
-            return this.keyDefSet.iterator().next();
-        } else {
-            throw new RuntimeException("This entity has more than one key");
+        LocalUtil.isEmpty(keyDefSet);
+        if (LocalUtil.isEmpty(keyDefSet)) {
+            // try to get parent key
+            KeyDef parentKeyDef = getParentDef()!= null ?  getParentDef().getKeyDef() : null;
+            if (null != parentKeyDef) {
+                return parentKeyDef;
+            }
+            throw new RuntimeException("no keyDef found even with parent");
         }
+        if (keyDefSet.size() == 1) {
+            return this.keyDefSet.iterator().next();
+        }
+        throw new RuntimeException("This entity has more than one key");
     }
 
     public Set<KeyDef> getKeyDefSet() {
