@@ -14,17 +14,18 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ *
  * Created by simon on 2015/1/16.
  */
 public abstract class BaseCodeFatherMojo extends AbstractMojo {
     /**
      * Field of maven project information
-     * @parameter expression="${project}"
+     * @parameter property="project"
      */
     protected MavenProject project;
     /**
      * codefather path, relative to project path
-     * @parameter expression="${codeFatherPath}", default-value="src/main/codefather"
+     * @parameter property="codeFatherPath", default-value="src/main/codefather"
      */
     protected String codeFatherPath = "src/main/codefather";
     // ================ internal properties from here ======================

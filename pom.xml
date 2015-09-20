@@ -75,5 +75,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <scm>
+        <developerConnection>scm:git:https://github.com/SimonXianyu/codefather</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Simon Xianyu</name>
+            <email>simon_xianyu@163.com</email>
+        </developer>
+    </developers>
     
 </project>

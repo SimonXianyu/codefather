@@ -7,6 +7,7 @@ package com.github.SimonXianyu.codefather.model;
  */
 public class KeyDef extends PropertyDef implements Comparable<KeyDef> {
     private boolean generated;
+    private String generator;
 
     @Override
     public boolean isKey() {
@@ -19,6 +20,14 @@ public class KeyDef extends PropertyDef implements Comparable<KeyDef> {
 
     public boolean isGenerated() {
         return generated;
+    }
+
+    public String getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(String generator) {
+        this.generator = generator;
     }
 
     public void setGenerated(boolean generated) {

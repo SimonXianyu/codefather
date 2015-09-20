@@ -136,7 +136,7 @@ public class FreemarkerRender {
         Map<String, Object> resultContext = new HashMap<String, Object>();
         resultContext.put("n2a", native2AsciiMethod);
         resultContext.put("l_u", lowUnderMethod);
-        if (upperContext!=null) {
+        if (upperContext!=null && upperContext.size()>0) {
             resultContext.putAll(upperContext);
         }
         for(Map.Entry<Object, Object> entry : config.entrySet()) {

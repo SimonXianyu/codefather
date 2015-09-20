@@ -21,13 +21,20 @@ public class EntityCollector {
     private EntityParser parser = new EntityParser();
 
     public EntityCollector(File targetDir) {
+        this(targetDir, true);
+    }
+
+    public EntityCollector(File targetDir, boolean required) {
         this.baseDir = targetDir;
-        if ( !baseDir.exists() || !baseDir.isDirectory()) {
+        if (required &&(!baseDir.exists() || !baseDir.isDirectory())) {
             throw new IllegalArgumentException("Wrong path for entities directory under "+targetDir.getPath());
         }
     }
 
     public void collect() {
+        if (!baseDir.exists()) {
+            return;
+        }
         walk("", null );
     }
     public void collect(DefaultMutableTreeNode node) {
