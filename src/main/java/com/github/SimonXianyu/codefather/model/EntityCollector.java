@@ -1,5 +1,7 @@
 package com.github.SimonXianyu.codefather.model;
 
+import org.apache.commons.lang.StringUtils;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.io.File;
@@ -69,6 +71,9 @@ public class EntityCollector {
             def.setPath(subpath);
             this.entityDefList.add(def);
             this.entityDefMap.put(def.getName(), def);
+            if (StringUtils.isNotBlank(def.getParent())) {
+                def.setParentDef(entityDefMap.get(def.getParent()));
+            }
 
             DefaultMutableTreeNode defNode = new DefaultMutableTreeNode(def);
             if (null != parentNode) {
