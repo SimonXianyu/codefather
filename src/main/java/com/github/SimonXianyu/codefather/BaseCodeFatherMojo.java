@@ -20,12 +20,12 @@ import java.io.IOException;
 public abstract class BaseCodeFatherMojo extends AbstractMojo {
     /**
      * Field of maven project information
-     * @parameter property="project"
+     * @parameter expression="${project}"
      */
     protected MavenProject project;
     /**
      * codefather path, relative to project path
-     * @parameter property="codeFatherPath", default-value="src/main/codefather"
+     * @parameter expression="${codeFatherPath}", default-value="src/main/codefather"
      */
     protected String codeFatherPath = "src/main/codefather";
     // ================ internal properties from here ======================
@@ -49,7 +49,7 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
         try {
             LocalUtil.readProperties(globalProperties, new File(configDir, "global.properties"));
         } catch (IOException e) {
-            throw new MojoExecutionException("Failed to load global.properties");
+            throw new MojoExecutionException("Failed to load global.properties in path:"+configDir.getPath() );
         }
 
         EntitySchemaParser entitySchemaParser = new EntitySchemaParser();
@@ -72,7 +72,7 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
     protected boolean checkCodeFatherPath() {
         codeFatherDir = new File(project.getBasedir(), codeFatherPath);
         if (!codeFatherDir.exists() || !codeFatherDir.isDirectory()) {
-            getLog().warn("Failed to find directory of code father.");
+            getLog().info("No code father directory:"+codeFatherDir.getPath());
             return true;
         }
         return false;
