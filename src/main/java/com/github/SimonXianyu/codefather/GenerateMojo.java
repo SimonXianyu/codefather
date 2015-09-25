@@ -41,7 +41,7 @@ public class GenerateMojo extends BaseCodeFatherMojo {
     }
 
     private void renderWithTotalEntities() throws MojoExecutionException {
-        freemarkerRender.renderGroup(entityCollector.getEntityDefList(), contextTemplateCollector.getTemplateList(),
+        freemarkerRender.renderGroup(entityCollector.getDefList(), contextTemplateCollector.getTemplateList(),
                 this.globalProperties);
     }
 
@@ -49,7 +49,7 @@ public class GenerateMojo extends BaseCodeFatherMojo {
      * This method visit template tree for each entity in list, try to render if necessary.
      */
     private void renderSingleTempleForEachEntity() throws MojoExecutionException {
-        for(EntityDef entityDef : entityCollector.getEntityDefList()) {
+        for(EntityDef entityDef : entityCollector.getDefList()) {
             for(TemplateDef templateDef : singleTemplateCollector.getTemplateList()) {
                 freemarkerRender.render(entityDef, templateDef, this.globalProperties);
             }

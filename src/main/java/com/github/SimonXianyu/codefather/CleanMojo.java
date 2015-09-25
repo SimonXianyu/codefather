@@ -45,7 +45,7 @@ public class CleanMojo extends BaseCodeFatherMojo {
     private void findCleanPaths() throws MojoExecutionException {
         Set<String> cleanPath= new HashSet<String>();
         Map<String, Object> rootContext = createContext(null, globalProperties);
-        for(EntityDef entityDef : entityCollector.getEntityDefList()) {
+        for(EntityDef entityDef : entityCollector.getDefList()) {
             rootContext.put("entity", entityDef);
             for(TemplateDef templateDef : singleTemplateCollector.getTemplateList()) {
                 String path = makePathWithContext(templateDef, rootContext);
@@ -109,7 +109,7 @@ public class CleanMojo extends BaseCodeFatherMojo {
         Map<String, Object> rootContext = createContext(null, globalProperties);
 
         // collect files to be removed.
-        for(EntityDef entityDef : removedEntityCollector.getEntityDefList()) {
+        for(EntityDef entityDef : removedEntityCollector.getDefList()) {
             rootContext.put("entity", entityDef);
             for(TemplateDef templateDef : singleTemplateCollector.getTemplateList()) {
                 collectToBeRemovedFiles(templateDef, rootContext, toBeRemovedFiles);

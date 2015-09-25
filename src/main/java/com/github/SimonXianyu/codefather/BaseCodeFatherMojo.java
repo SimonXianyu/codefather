@@ -34,6 +34,7 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
     protected EvaluateProperties globalProperties;
     protected EntityCollector entityCollector;
     protected ModuleCollector moduleCollector;
+
     protected TemplateCollector singleTemplateCollector;
     protected TemplateCollector contextTemplateCollector;
     protected TemplateCollector moduleTemplateCollector;

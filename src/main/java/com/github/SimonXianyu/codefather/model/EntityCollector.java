@@ -5,23 +5,16 @@ import org.apache.commons.lang.StringUtils;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * This class is used to collect Entity definitions in specified directory
  * Created by simon on 2014/12/1.
  */
-public class EntityCollector {
-    private List<EntityDef> entityDefList = new ArrayList<EntityDef>();
+public class EntityCollector extends BaseDefinitionCollector<EntityDef> {
 
     private Map<String, EntityDef> entityDefMap = new HashMap<String, EntityDef>();
-
-    private File baseDir;
-
-    private DefaultMutableTreeNode rootNode = null;
 
     private EntityParser parser = new EntityParser();
 
@@ -30,7 +23,7 @@ public class EntityCollector {
     }
 
     public EntityCollector(File targetDir, boolean required) {
-        this.baseDir = targetDir;
+        super(targetDir);
         if (required &&(!baseDir.exists() || !baseDir.isDirectory())) {
             throw new IllegalArgumentException("Wrong path for entities directory under "+targetDir.getPath());
         }
@@ -43,7 +36,6 @@ public class EntityCollector {
         if (!baseDir.exists()) {
             return;
         }
-        rootNode = node;
         walk("", treeModel, node );
     }
 
@@ -69,7 +61,7 @@ public class EntityCollector {
 
             EntityDef def = parser.parse(f);
             def.setPath(subpath);
-            this.entityDefList.add(def);
+            this.defList.add(def);
             this.entityDefMap.put(def.getName(), def);
             if (StringUtils.isNotBlank(def.getParent())) {
                 def.setParentDef(entityDefMap.get(def.getParent()));
@@ -90,14 +82,11 @@ public class EntityCollector {
     }
 
     public int countEntity() {
-        return this.entityDefList.size();
+        return this.defList.size();
     }
 
     public EntityDef getEntity(String entityName) {
         return this.entityDefMap.get(entityName);
     }
 
-    public List<EntityDef> getEntityDefList() {
-        return entityDefList;
-    }
 }
