@@ -23,7 +23,7 @@ public class TemplateCollector {
     private TemplateNode node;
     private List<TemplateDef> templateDefList = new ArrayList<TemplateDef>();
 
-    public static TemplateCollector createInstance(File dir, String subDirectory) throws MojoExecutionException {
+    public static TemplateCollector createInstance(File dir, String subDirectory, boolean required) throws MojoExecutionException {
         if (!dir.exists() || !dir.isDirectory()) {
             throw new RuntimeException("path should be an existing directory");
         }

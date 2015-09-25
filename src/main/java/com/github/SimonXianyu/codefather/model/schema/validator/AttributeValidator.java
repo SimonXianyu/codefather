@@ -1,6 +1,6 @@
-package com.github.SimonXianyu.codefather.model.vali;
+package com.github.SimonXianyu.codefather.model.schema.validator;
 
-import com.github.SimonXianyu.codefather.model.AttributeDef;
+import com.github.SimonXianyu.codefather.model.schema.AttributeDef;
 import com.github.SimonXianyu.codefather.model.PropertyDef;
 
 /**

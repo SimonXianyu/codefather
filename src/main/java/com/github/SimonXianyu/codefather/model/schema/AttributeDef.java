@@ -1,4 +1,4 @@
-package com.github.SimonXianyu.codefather.model;
+package com.github.SimonXianyu.codefather.model.schema;
 
 /**
  * Pojo for store attributes definition.

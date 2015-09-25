@@ -1,6 +1,6 @@
 package com.github.SimonXianyu.codefather.model;
 
-import com.github.SimonXianyu.codefather.GenerateMojo;
+import com.github.SimonXianyu.codefather.model.schema.AttributeDef;
 import com.github.SimonXianyu.codefather.util.DigesterHelper;
 import com.github.SimonXianyu.codefather.util.LocalUtil;
 import org.apache.commons.digester3.Digester;

@@ -1,5 +1,7 @@
 package com.github.SimonXianyu.codefather.model;
 
+import com.github.SimonXianyu.codefather.model.schema.AttributeDef;
+
 import java.util.*;
 
 /**

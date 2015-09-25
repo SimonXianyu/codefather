@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module mainEntity="SysUser" text="系统用户">
+    <group name="basic">
+        <func name="create" text="新建" />
+        <func name="list" text="管理" />
+        <func name="edit" text="编辑" />
+        <func name="delete" text="删除" />
+
+    </group>
+</module>

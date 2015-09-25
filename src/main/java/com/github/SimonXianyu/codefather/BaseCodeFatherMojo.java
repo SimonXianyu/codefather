@@ -3,6 +3,7 @@ package com.github.SimonXianyu.codefather;
 import com.github.SimonXianyu.codefather.model.EntityCollector;
 import com.github.SimonXianyu.codefather.model.EntitySchema;
 import com.github.SimonXianyu.codefather.model.EntitySchemaParser;
+import com.github.SimonXianyu.codefather.model.funcmodule.ModuleCollector;
 import com.github.SimonXianyu.codefather.templates.TemplateCollector;
 import com.github.SimonXianyu.codefather.util.EvaluateProperties;
 import com.github.SimonXianyu.codefather.util.LocalUtil;
@@ -32,14 +33,23 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
     protected File codeFatherDir;
     protected EvaluateProperties globalProperties;
     protected EntityCollector entityCollector;
+    protected ModuleCollector moduleCollector;
     protected TemplateCollector singleTemplateCollector;
     protected TemplateCollector contextTemplateCollector;
+    protected TemplateCollector moduleTemplateCollector;
+
+
     /** Entity schema for validating */
     private EntitySchema entitySchema;
 
     protected void collectEntities() {
         entityCollector = new EntityCollector(new File(codeFatherPath,"entities"));
         entityCollector.collect();
+    }
+
+    protected void collectModules() {
+        moduleCollector = new ModuleCollector(new File(codeFatherPath,"modules"));
+        moduleCollector.collect();
     }
 
     protected void readGlobalConfig() throws MojoExecutionException {
@@ -58,11 +68,14 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
     }
 
     protected void collectTemplate() throws MojoExecutionException {
-        singleTemplateCollector = TemplateCollector.createInstance(new File(codeFatherDir, "templates"), "single");
+        File templateDir = new File(codeFatherDir, "templates");
+        singleTemplateCollector = TemplateCollector.createInstance(templateDir, "single", true);
         singleTemplateCollector.collect();
 
-        contextTemplateCollector = TemplateCollector.createInstance(new File(codeFatherDir, "templates"), "context");
+        contextTemplateCollector = TemplateCollector.createInstance(templateDir, "context", true);
         contextTemplateCollector.collect();
+
+        moduleTemplateCollector = TemplateCollector.createInstance(templateDir, "module", false);
     }
 
     public void setProject(MavenProject project) {

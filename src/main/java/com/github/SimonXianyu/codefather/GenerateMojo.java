@@ -28,9 +28,16 @@ public class GenerateMojo extends BaseCodeFatherMojo {
         readGlobalConfig();
         collectTemplate();
         collectEntities();
+        collectModules();
 
         renderSingleTempleForEachEntity();
         renderWithTotalEntities();
+
+        renderForEachModule();
+    }
+
+    private void renderForEachModule() {
+        // TODO
     }
 
     private void renderWithTotalEntities() throws MojoExecutionException {

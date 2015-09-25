@@ -14,43 +14,18 @@ import java.io.InputStream;
  * Class to parse entity definition.
  * User: Simon Xianyu
  */
-public class EntityParser {
+public class EntityParser extends AbstractDefParser<EntityDef> {
 
     public EntityParser() {
     }
 
-    /**
-     * Parse entity with specified file.
-     * The filename (without extension ) will be used as default name.
-     **/
-    public EntityDef parse(File sourceFile) {
-        String name = sourceFile.getName().substring(0, sourceFile.getName().lastIndexOf('.'));
-        InputStream in = null;
-        try {
-            in = new FileInputStream(sourceFile);
-            return this.parse(name, in);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to parse while reading file:"+sourceFile.getName(),e);
-        } finally {
-            LocalUtil.closeQuietly(in);
-        }
-    }
-    public EntityDef parse(String name, InputStream in) throws IOException {
-        Digester dig = createDig();
-        try {
-            Object resultObj = dig.parse(in);
-            if (!(resultObj instanceof EntityDef) ){
-                throw new RuntimeException("Failed to parse entity :"+name);
-            }
-            EntityDef def = (EntityDef) resultObj;
-            def.setName(name);
-            return def;
-        } catch (SAXException e) {
-            throw new RuntimeException("Failed to parse because xml error in entity :"+name,e);
-        }
+    @Override
+    protected void processName(String name, EntityDef def) {
+        def.setName(name);
     }
 
-    private Digester createDig() {
+    @Override
+    protected Digester createDig() {
         DigesterHelper dh = new DigesterHelper();
         dh.createSetObject("entity", EntityDef.class)
                 .setBodyText("entity/description", "setDescription")

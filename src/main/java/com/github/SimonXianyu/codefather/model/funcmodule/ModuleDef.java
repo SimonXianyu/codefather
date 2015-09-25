@@ -1,10 +1,16 @@
-package com.github.SimonXianyu.codefather.model;
+package com.github.SimonXianyu.codefather.model.funcmodule;
+
+import com.github.SimonXianyu.codefather.model.Described;
+import com.github.SimonXianyu.codefather.model.EntityDef;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Definition of module
  * Created by Simon Xianyu on 2015/3/30 0030.
  */
-public class ModuleDef {
+public class ModuleDef extends Described {
   private String name;
   private String text;
   private String path;
@@ -12,6 +18,27 @@ public class ModuleDef {
   private String entity;
 
   private EntityDef entityDef;
+
+  private List<FuncGroup> groups = new ArrayList<FuncGroup>();
+  private List<FuncDef> funcs = new ArrayList<FuncDef>();
+
+  public void print() {
+    System.out.println(name+"["+text+"]: {");
+    for(FuncGroup group : groups) {
+      group.print();
+    }
+    for(FuncDef def : funcs) {
+      def.print();
+    }
+    System.out.println("}");
+  }
+
+  public void addGroup(FuncGroup fg) {
+    groups.add(fg);
+  }
+  public void addFunc(FuncDef fd) {
+    funcs.add(fd);
+  }
 
   public String getName() {
     return name;
@@ -59,5 +86,13 @@ public class ModuleDef {
 
   public void setEntityDef(EntityDef entityDef) {
     this.entityDef = entityDef;
+  }
+
+  public List<FuncGroup> getGroups() {
+    return groups;
+  }
+
+  public List<FuncDef> getFuncs() {
+    return funcs;
   }
 }
