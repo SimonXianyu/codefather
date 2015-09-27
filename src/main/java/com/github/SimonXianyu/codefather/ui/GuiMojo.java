@@ -37,7 +37,8 @@ public class GuiMojo extends BaseCodeFatherMojo {
         readGlobalConfig();
         collectTemplate();
         entityCollector = new EntityCollector(new File(codeFatherPath,"entities"));
-        entityCollector.collect(mainPanel.getTreeModel(), mainPanel.getRootNode());
+        entityCollector.collect();
+        entityCollector.fillTree(mainPanel.getRootNode());
         mainPanel.reloadTree();
 
         runFlag.set(true);

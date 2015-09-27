@@ -20,18 +20,23 @@ public class TemplateCollector {
 
     private File baseDir;
     private String templateSubDirectory="";
+    private boolean required;
     private TemplateNode node;
     private List<TemplateDef> templateDefList = new ArrayList<TemplateDef>();
 
     public static TemplateCollector createInstance(File dir, String subDirectory, boolean required) throws MojoExecutionException {
-        if (!dir.exists() || !dir.isDirectory()) {
-            throw new RuntimeException("path should be an existing directory");
-        }
         File subDir = new File(dir, subDirectory);
-        if (!subDir.exists() || !subDir.isDirectory()) {
-            throw new MojoExecutionException("template directory wrong: "+subDir.getPath());
+        if (required) {
+            if (!dir.exists() || !dir.isDirectory()) {
+                throw new RuntimeException("path should be an existing directory");
+            }
+            if (!subDir.exists() || !subDir.isDirectory()) {
+                throw new MojoExecutionException("template directory wrong: " + subDir.getPath());
+            }
         }
-        return new TemplateCollector(subDir, subDirectory);
+        TemplateCollector templateCollector = new TemplateCollector(subDir, subDirectory);
+        templateCollector.required = required;
+        return templateCollector;
     }
     private TemplateCollector(File dir, String templateSubDirectory) {
         this.baseDir = dir;
@@ -40,6 +45,9 @@ public class TemplateCollector {
     }
 
     public void collect() {
+        if (!required && !baseDir.exists()) {
+            return;
+        }
         walkInDir(baseDir, node);
     }
 

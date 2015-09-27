@@ -12,7 +12,7 @@ import java.util.Map;
  * This class is used to collect Entity definitions in specified directory
  * Created by simon on 2014/12/1.
  */
-public class EntityCollector extends BaseDefinitionCollector<EntityDef> {
+public class EntityCollector extends AbstractDefinitionCollector<EntityDef> {
 
     private Map<String, EntityDef> entityDefMap = new HashMap<String, EntityDef>();
 
@@ -29,60 +29,25 @@ public class EntityCollector extends BaseDefinitionCollector<EntityDef> {
         }
     }
 
-    public void collect() {
-        collect(null, null);
-    }
-    public void collect(DefaultTreeModel treeModel, DefaultMutableTreeNode node) {
-        if (!baseDir.exists()) {
-            return;
-        }
-        walk("", treeModel, node );
-    }
-
-    protected void walk(String subpath, DefaultTreeModel treeModel, DefaultMutableTreeNode parentNode) {
-        File curDir = new File(baseDir, subpath);
-        File[] children = curDir.listFiles();
-        if (null == children || children.length==0) {
-            return;
-        }
-
-        for(File f :children) {
-            String fileName = f.getName();
-            if (f.isDirectory()) {
-                DefaultMutableTreeNode curNode = new DefaultMutableTreeNode(f.getName(), true); // currentNode
-                walk(joinName(subpath, fileName), treeModel, curNode);
-                if (curNode.getChildCount()>0 && parentNode!=null) {
-                    parentNode.add(curNode);
-                }
-            }
-            if (!fileName.toLowerCase().endsWith(".xml")) {
-                continue;
-            }
-
-            EntityDef def = parser.parse(f);
-            def.setPath(subpath);
-            this.defList.add(def);
-            this.entityDefMap.put(def.getName(), def);
+    @Override
+    protected void onCollected() {
+        for(EntityDef def : defList) {
             if (StringUtils.isNotBlank(def.getParent())) {
-                def.setParentDef(entityDefMap.get(def.getParent()));
-            }
-
-            DefaultMutableTreeNode defNode = new DefaultMutableTreeNode(def);
-            if (null != parentNode) {
-                parentNode.add(defNode);
+                EntityDef parentDef = entityDefMap.get(def.getParent());
+                if (null == parentDef) {
+                    throw new IllegalArgumentException("No parent found :" +def.getParent()+" for "+def.getName());
+                }
+                def.setParentDef(parentDef);
             }
         }
     }
 
-    private String joinName(String subpath, String name) {
-        if ("".equals(subpath)) {
-            return name;
-        }
-        return subpath+"/"+name;
-    }
-
-    public int countEntity() {
-        return this.defList.size();
+    @Override
+    protected EntityDef doParse(String path, File f) {
+        EntityDef def = parser.parse(f);
+        def.setPath(path);
+        entityDefMap.put(def.getName(), def);
+        return def;
     }
 
     public EntityDef getEntity(String entityName) {

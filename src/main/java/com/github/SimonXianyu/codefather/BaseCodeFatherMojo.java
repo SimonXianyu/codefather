@@ -50,7 +50,7 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
 
     protected void collectModules() {
         moduleCollector = new ModuleCollector(new File(codeFatherPath,"modules"));
-        moduleCollector.collect();
+        moduleCollector.collect(false);
     }
 
     protected void readGlobalConfig() throws MojoExecutionException {
@@ -76,7 +76,8 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
         contextTemplateCollector = TemplateCollector.createInstance(templateDir, "context", true);
         contextTemplateCollector.collect();
 
-        moduleTemplateCollector = TemplateCollector.createInstance(templateDir, "module", false);
+        moduleTemplateCollector = TemplateCollector.createInstance(templateDir, "modules", false);
+        moduleTemplateCollector.collect();
     }
 
     public void setProject(MavenProject project) {

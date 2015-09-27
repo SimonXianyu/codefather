@@ -1,6 +1,8 @@
 package com.github.SimonXianyu.codefather.model.funcmodule;
 
 import com.github.SimonXianyu.codefather.model.Described;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +13,21 @@ import java.util.List;
  */
 public class FuncGroup extends Described {
     private String name;
+    /** default show text */
+    private String text;
+    private String[] menus;
+    private List<FuncDef> menuRef = new ArrayList<FuncDef>();
     private List<FuncDef> funcs = new ArrayList<FuncDef>();
 
+    public void setMenu(String s) {
+        menus = StringUtils.split(s, ",");
+
+    }
     public void addFunc(FuncDef def) {
         funcs.add(def);
+        if (null!=menus && ArrayUtils.contains(menus, def.getName())) {
+            menuRef.add(def);
+        }
     }
 
     public List<FuncDef> getFuncs() {
@@ -31,6 +44,14 @@ public class FuncGroup extends Described {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public void print() {

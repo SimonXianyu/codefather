@@ -65,7 +65,8 @@ public class MainPanel extends JPanel {
         mp.initGui();
 
         EntityCollector entityCollector = new EntityCollector(new File("src/main/codefather/entities"));
-        entityCollector.collect(mp.getTreeModel(), mp.getRootNode());
+        entityCollector.collect();
+        entityCollector.fillTree(mp.getRootNode());
 
 //        EntityDef def = new EntityDef();
 //        def.setName("TestEntity");

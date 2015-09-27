@@ -67,7 +67,7 @@ public class TemplateCollectorTest {
 
     private TemplateCollector createInstance(String path, String subPath) {
         try {
-            return TemplateCollector.createInstance(new File(workDir,path),subPath, false);
+            return TemplateCollector.createInstance(new File(workDir,path),subPath, true);
         } catch (MojoExecutionException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
