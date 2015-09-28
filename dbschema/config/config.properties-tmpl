@@ -1,0 +1,11 @@
+# Generate specific tables, split with comma(,)
+tables=BASE_USER,BASE_ROLE,BASE_USER_ROLE,BASE_AUTHORITY,BASE_ROLE_AUTH
+
+# If precision is high,floating type is BigDecimal, and else is Double
+precision=
+
+# if set the value, the prefix of table will be removed when generate code
+tablePrefix=
+
+# generate specific layers(selectable value: dbschema), split with comma(,).
+layers=dbschema
