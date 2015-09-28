@@ -3,7 +3,9 @@ package com.github.SimonXianyu.codefather.model;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -15,6 +17,7 @@ abstract public class AbstractDefinitionCollector<T extends Described> {
     protected File baseDir;
 
     protected PathNode<T> rootNode = new PathNode<T>();
+    protected Map<String, T> defMap = new HashMap<String, T>();
 
     public AbstractDefinitionCollector(File targetDir) {
         this.baseDir = targetDir;
@@ -39,9 +42,6 @@ abstract public class AbstractDefinitionCollector<T extends Described> {
     }
 
     public void collect() {
-        collect(true);
-    }
-    public void collect(boolean required) {
         walk("", rootNode);
         onCollected();
     }
@@ -86,5 +86,9 @@ abstract public class AbstractDefinitionCollector<T extends Described> {
 
     public int countEntity() {
         return this.defList.size();
+    }
+
+    public T getDefByName(String name) {
+        return this.defMap.get(name);
     }
 }

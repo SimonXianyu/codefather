@@ -2,16 +2,18 @@ package com.github.SimonXianyu.codefather.model.funcmodule;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.List;
 
 /**
  *
  * Created by simon on 15/9/27.
  */
 public class ModuleCollectorTest {
-    private ModuleCollector moduleCollector;
-    private File baseDir = new File("src/text/module-test");
+    private ModuleCollector collector;
+    private File baseDir = new File("src/test/module-test");
 
     @Before
     public void setUp() {
@@ -19,6 +21,11 @@ public class ModuleCollectorTest {
 
     @Test
     public void testNormalCollect() {
-        moduleCollector = new ModuleCollector(new File(baseDir,"normal"));
+        collector = new ModuleCollector(new File(baseDir,"normal"));
+        collector.collect();
+        List<ModuleDef> defList = collector.getDefList();
+        assertNotNull(defList);
+        assertEquals("count should be 1", 1, defList.size());
+        assertNotNull("SysModule should exists", collector.getDefByName("Sys"));
     }
 }

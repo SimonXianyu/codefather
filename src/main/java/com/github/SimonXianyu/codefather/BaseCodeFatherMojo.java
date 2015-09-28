@@ -50,7 +50,7 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
 
     protected void collectModules() {
         moduleCollector = new ModuleCollector(new File(codeFatherPath,"modules"));
-        moduleCollector.collect(false);
+        moduleCollector.collect();
     }
 
     protected void readGlobalConfig() throws MojoExecutionException {
@@ -65,7 +65,6 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
 
         EntitySchemaParser entitySchemaParser = new EntitySchemaParser();
         entitySchema = entitySchemaParser.readEntitySchema(configDir);
-
     }
 
     protected void collectTemplate() throws MojoExecutionException {

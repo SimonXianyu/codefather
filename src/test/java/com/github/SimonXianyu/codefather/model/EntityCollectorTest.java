@@ -24,7 +24,7 @@ public class EntityCollectorTest {
         collector = new EntityCollector(new File(workPath, "src/test/entity-test/simple"));
         collector.collect();
         assertEquals(1, collector.countEntity());
-        assertNotNull(collector.getEntity("VideoFile"));
+        assertNotNull(collector.getDefByName("VideoFile"));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class EntityCollectorTest {
         collector = new EntityCollector(new File(workPath, "src/test/entity-test/inpath"));
         collector.collect();
         assertTrue(collector.countEntity()>0);
-        EntityDef entityManUser = collector.getEntity("ManUser");
+        EntityDef entityManUser = collector.getDefByName("ManUser");
         assertNotNull(entityManUser);
         assertEquals("sys",entityManUser.getPath());
     }
