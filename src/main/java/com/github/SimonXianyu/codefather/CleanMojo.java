@@ -125,11 +125,6 @@ public class CleanMojo extends BaseCodeFatherMojo {
 
     private void collectToBeRemovedFiles(TemplateDef templateDef, Map<String, Object> rootContext, Set<File> toBeRemovedFiles) {
         Map<String, Object> localContext = createContext(rootContext, templateDef.getConfig());
-        String  ignoreThis = LocalUtil.extractStringValue(localContext, IGNORE_THIS);
-        if (Boolean.parseBoolean(ignoreThis)) {
-            return;
-        }
-
         String outputFilePath = (String) localContext.get(OUTPUT_PATH);
         if (outputFilePath == null) {
             return;
