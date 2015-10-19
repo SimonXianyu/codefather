@@ -1,6 +1,7 @@
 package io.github.SimonXianyu.codefather.model.funcmodule;
 
 import io.github.SimonXianyu.codefather.model.Described;
+import io.github.SimonXianyu.codefather.model.NamedDef;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -11,8 +12,7 @@ import java.util.List;
  *
  * Created by Simon Xianyu on 2015/9/22 0022.
  */
-public class FuncGroup extends Described {
-    private String name;
+public class FuncGroup extends NamedDef {
     /** default show text */
     private String text;
     private String[] menus;
@@ -36,14 +36,6 @@ public class FuncGroup extends Described {
 
     public void setFuncs(List<FuncDef> funcs) {
         this.funcs = funcs;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getText() {

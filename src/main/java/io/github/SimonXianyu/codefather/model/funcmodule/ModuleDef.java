@@ -2,6 +2,7 @@ package io.github.SimonXianyu.codefather.model.funcmodule;
 
 import io.github.SimonXianyu.codefather.model.Described;
 import io.github.SimonXianyu.codefather.model.EntityDef;
+import io.github.SimonXianyu.codefather.model.NamedDef;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,7 @@ import java.util.List;
  * Definition of module
  * Created by Simon Xianyu on 2015/3/30 0030.
  */
-public class ModuleDef extends Described {
-  private String name;
+public class ModuleDef extends NamedDef {
   private String text;
   private String path;
   private String packageName;
@@ -38,14 +38,6 @@ public class ModuleDef extends Described {
   }
   public void addFunc(FuncDef fd) {
     funcs.add(fd);
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public String getText() {

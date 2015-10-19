@@ -6,8 +6,7 @@ import org.apache.commons.lang.StringUtils;
  * Class for property definition.
  * User: Simon Xianyu
  */
-public class PropertyDef extends Described {
-    protected String name;
+public class PropertyDef extends NamedDef {
     protected String type;
     protected String dbtype;
     protected int length;
@@ -45,14 +44,6 @@ public class PropertyDef extends Described {
             }
         }
         return sb.toString();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getType() {

@@ -11,14 +11,9 @@ import java.util.*;
  * Class of entity definition
  * Created by simon on 14-7-28.
  */
-public class EntityDef extends Described {
+public class EntityDef extends NamedDef {
 
     private String path = "";
-    /**
-     * The name of entity, default is Entity file name without extension. Note: First character should be upper case.
-     */
-    private String name;
-
     /** description text */
     private String text;
     /**
@@ -186,14 +181,6 @@ public class EntityDef extends Described {
 
     public PropertyDef getPropertyOf(String name) {
         return this.propMap.get(name);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getTable() {

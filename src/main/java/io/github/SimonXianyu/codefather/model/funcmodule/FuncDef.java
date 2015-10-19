@@ -1,22 +1,14 @@
 package io.github.SimonXianyu.codefather.model.funcmodule;
 
 import io.github.SimonXianyu.codefather.model.Described;
+import io.github.SimonXianyu.codefather.model.NamedDef;
 
 /**
  *
  * Created by Simon Xianyu on 2015/9/22 0022.
  */
-public class FuncDef extends Described {
-    private String name;
+public class FuncDef extends NamedDef {
     private String text;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getText() {
         return text;

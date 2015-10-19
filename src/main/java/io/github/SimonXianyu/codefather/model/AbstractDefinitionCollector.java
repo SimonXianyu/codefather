@@ -66,6 +66,9 @@ abstract public class AbstractDefinitionCollector<T extends Described> {
                 T def = doParse(parent, f);
                 rootNode.addElement(def);
                 defList.add(def);
+                if (def instanceof INamedDef) {
+                    defMap.put(((INamedDef)def).getName(), def);
+                }
             }
 
         }
