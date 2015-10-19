@@ -72,7 +72,7 @@ public abstract class BaseCodeFatherMojo extends AbstractMojo {
         singleTemplateCollector = TemplateCollector.createInstance(templateDir, "single", true);
         singleTemplateCollector.collect();
 
-        contextTemplateCollector = TemplateCollector.createInstance(templateDir, "context", true);
+        contextTemplateCollector = TemplateCollector.createInstance(templateDir, "context", false);
         contextTemplateCollector.collect();
 
         moduleTemplateCollector = TemplateCollector.createInstance(templateDir, "modules", false);
