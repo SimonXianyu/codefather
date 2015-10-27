@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity
+    parent="BaseEntity"
+    text="可被命名资源"
+    abstract="true"
+    import="ca.paypos.iam.common.IamNameable"
+    >
+  <description>Extracted named entity</description>
+
+  <!-- 统一资源名称 -->
+  <property name="urn" type="string" text="URN"/>
+
+</entity>

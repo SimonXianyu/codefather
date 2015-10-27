@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity overwriteListJsp="false" text="角色" deletable="1" checkDeletable="1"
+        abstract="true"
+        import="ca.paypos.iam.common.BaseEntity"
+        >
+    <description>Abstract base entity</description>
+    <key name="id" type="objectId" generator="auto" generated="true" />
+
+    <property name="created_at" type="long" noGrid="1" noTrans="1" text="创建时间" />
+    <property name="updated_at" type="long" noGrid="1" noTrans="1" text="更新时间" />
+
+</entity>

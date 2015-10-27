@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity urlname="muser"
+        text="后台管理用户"
+        abstract="true"
+        java-controller="1"
+        table="man_user"
+        >
+    <description>This is used to store manager user information to local database</description>
+
+    <key name="id" type="long" generated="true" text="ID" />
+    <property name="name" type="string" text="显示名"/>
+
+</entity>
