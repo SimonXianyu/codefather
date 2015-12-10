@@ -111,6 +111,13 @@ public class EntityDef extends NamedDef {
             return "."+path.replaceAll("/", ".");
         }
     }
+    public String getSubPackageName() {
+        if (this.path.length() == 0) {
+            return "";
+        } else {
+            return path.replaceAll("/", ".");
+        }
+    }
 
     public String getUrlName() {
         if (this.attrMap.containsKey("urlname")) {

@@ -89,10 +89,43 @@ public class FreemarkerRender {
             }
         }
         File outputFile = new File(outputFileDir, outputFilename);
-        if (!Boolean.valueOf(LocalUtil.extractStringValue(localContext, TemplateConstants.OVERWRITE, "true"))
-                && outputFile.exists()) {
-            return;
+        if (outputFile.exists()) {
+            if (!Boolean.valueOf(LocalUtil.extractStringValue(localContext, TemplateConstants.OVERWRITE, "true"))) {
+                return;
+            }
+            if (Boolean.valueOf(LocalUtil.extractStringValue(localContext, TemplateConstants.EXTEND, "true")) ) {
+                // read file and get user defined content
+                StringBuilder strb = new StringBuilder();
+                BufferedReader br = null;
+                try {
+                    br = new BufferedReader(new FileReader(outputFile));
+                    String line ;
+                    boolean flag = false;
+                    while ((line = br.readLine())!=null) {
+                        if (line.contains("[end]User defined")) {
+                            flag=false;
+                            break;
+                        }
+                        if (flag) {
+                            strb.append(line);
+                        }
+                        if (line.contains("[start]User defined")) {
+                            flag = true;
+                        }
+                    }
+                    if (flag) {
+                        throw new RuntimeException("Failed to find end tag");
+                    }
+                    localContext.put("userDefinedContent", strb.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    LocalUtil.closeQuietly(br);
+                }
+            }
         }
+
+
         renderToFile(localContext, templateDef.getLocationName(), outputFile);
     }
 
