@@ -208,7 +208,12 @@ public class EntityDef extends NamedDef {
     }
 
     public List<PropertyDef> getPropertyList() {
-        return Collections.unmodifiableList(propertyList);
+        ArrayList<PropertyDef> result = new ArrayList<PropertyDef>();
+        if (parentDef!=null) {
+            result.addAll(parentDef.getPropertyList());
+        }
+        result.addAll(propertyList);
+        return result;
     }
 
     public List<PropertyDef> getNonKeyPropertyList() {
