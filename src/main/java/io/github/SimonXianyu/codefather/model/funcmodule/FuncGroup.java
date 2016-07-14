@@ -5,6 +5,8 @@ import io.github.SimonXianyu.codefather.model.NamedDef;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class FuncGroup extends NamedDef {
         return funcs;
     }
 
+    @XmlElement(name="func")
     public void setFuncs(List<FuncDef> funcs) {
         this.funcs = funcs;
     }
@@ -42,6 +45,7 @@ public class FuncGroup extends NamedDef {
         return text;
     }
 
+    @XmlAttribute
     public void setText(String text) {
         this.text = text;
     }

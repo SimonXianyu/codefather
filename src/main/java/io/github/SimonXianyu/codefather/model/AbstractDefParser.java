@@ -4,6 +4,9 @@ import io.github.SimonXianyu.codefather.util.LocalUtil;
 import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,7 +34,7 @@ public abstract class AbstractDefParser<T> {
         InputStream in = null;
         try {
             in = new FileInputStream(sourceFile);
-            return this.parse(name, in);
+            return this.parseWithJaxb(name, in);
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse while reading file:"+sourceFile.getName(),e);
         } finally {
@@ -51,6 +54,21 @@ public abstract class AbstractDefParser<T> {
             }
             throw new RuntimeException("Failed to parse entity :"+name);
         } catch (SAXException e) {
+            throw new RuntimeException("Failed to parse because xml error in entity :"+name,e);
+        }
+    }
+    public T parseWithJaxb(String name, InputStream in) throws IOException {
+        try {
+            Unmarshaller unmarshaller = JAXBContext.newInstance(clazz).createUnmarshaller();
+            Object resultObj = unmarshaller.unmarshal(in);
+            if (clazz.isInstance(resultObj) ) {
+                T def = clazz.cast(resultObj);
+                processName(name, def);
+                return def;
+            }
+            throw new RuntimeException("Failed to parse entity :"+name);
+        } catch (JAXBException e) {
+//            e.printStackTrace();
             throw new RuntimeException("Failed to parse because xml error in entity :"+name,e);
         }
     }

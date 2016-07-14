@@ -26,6 +26,13 @@ public class ModuleCollectorTest {
         List<ModuleDef> defList = collector.getDefList();
         assertNotNull(defList);
         assertEquals("count should be 1", 1, defList.size());
-        assertNotNull("SysModule should exists", collector.getDefByName("Sys"));
+
+        ModuleDef moduleDef = collector.getDefByName("Sys");
+        assertNotNull("SysModule should exists", moduleDef);
+        assertEquals("Sys", moduleDef.getName());
+        assertEquals("系统用户", moduleDef.getText());
+
+        assertTrue(moduleDef.getGroups().size()>0);
+
     }
 }

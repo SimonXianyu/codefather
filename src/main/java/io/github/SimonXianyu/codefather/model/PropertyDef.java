@@ -2,10 +2,14 @@ package io.github.SimonXianyu.codefather.model;
 
 import org.apache.commons.lang.StringUtils;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Class for property definition.
  * User: Simon Xianyu
  */
+@XmlRootElement
 public class PropertyDef extends NamedDef {
     protected String type;
     protected String dbtype;
@@ -13,7 +17,7 @@ public class PropertyDef extends NamedDef {
     protected boolean nullable = true;
 
     public boolean isIngrid() {
-        return "1".equals(attrMap.get("nogrid"));
+        return "1".equals(getAttrMap().get("nogrid"));
     }
 
     public boolean isKey() {
@@ -50,6 +54,7 @@ public class PropertyDef extends NamedDef {
         return type;
     }
 
+    @XmlAttribute
     public void setType(String type) {
         this.type = type;
     }
@@ -58,6 +63,7 @@ public class PropertyDef extends NamedDef {
         return length;
     }
 
+    @XmlAttribute
     public void setLength(int length) {
         this.length = length;
     }
@@ -66,6 +72,7 @@ public class PropertyDef extends NamedDef {
         return dbtype;
     }
 
+    @XmlAttribute
     public void setDbtype(String dbtype) {
         this.dbtype = dbtype;
     }
@@ -74,6 +81,7 @@ public class PropertyDef extends NamedDef {
         return nullable;
     }
 
+    @XmlAttribute
     public void setNullable(boolean nullable) {
         this.nullable = nullable;
     }

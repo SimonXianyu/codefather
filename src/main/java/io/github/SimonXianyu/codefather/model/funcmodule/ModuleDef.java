@@ -1,9 +1,11 @@
 package io.github.SimonXianyu.codefather.model.funcmodule;
 
-import io.github.SimonXianyu.codefather.model.Described;
 import io.github.SimonXianyu.codefather.model.EntityDef;
 import io.github.SimonXianyu.codefather.model.NamedDef;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
  * Definition of module
  * Created by Simon Xianyu on 2015/3/30 0030.
  */
+@XmlRootElement(name="module")
 public class ModuleDef extends NamedDef {
   private String text;
   private String path;
@@ -43,7 +46,7 @@ public class ModuleDef extends NamedDef {
   public String getText() {
     return text;
   }
-
+  @XmlAttribute
   public void setText(String text) {
     this.text = text;
   }
@@ -51,7 +54,7 @@ public class ModuleDef extends NamedDef {
   public String getPath() {
     return path;
   }
-
+  @XmlAttribute
   public void setPath(String path) {
     this.path = path;
   }
@@ -59,7 +62,7 @@ public class ModuleDef extends NamedDef {
   public String getPackageName() {
     return packageName;
   }
-
+  @XmlAttribute
   public void setPackageName(String packageName) {
     this.packageName = packageName;
   }
@@ -67,7 +70,7 @@ public class ModuleDef extends NamedDef {
   public String getEntity() {
     return entity;
   }
-
+  @XmlAttribute
   public void setEntity(String entity) {
     this.entity = entity;
   }
@@ -80,10 +83,12 @@ public class ModuleDef extends NamedDef {
     this.entityDef = entityDef;
   }
 
+  @XmlElement(name="group")
   public List<FuncGroup> getGroups() {
     return groups;
   }
 
+  @XmlElement(name="func")
   public List<FuncDef> getFuncs() {
     return funcs;
   }
