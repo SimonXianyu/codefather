@@ -1,8 +1,6 @@
 package io.github.SimonXianyu.codefather.model;
 
 import io.github.SimonXianyu.codefather.util.LocalUtil;
-import org.apache.commons.digester3.Digester;
-import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,8 +16,9 @@ import java.lang.reflect.ParameterizedType;
  * Created by Simon Xianyu on 2015/9/22 0022.
  */
 public abstract class AbstractDefParser<T> {
-    protected Class<T> clazz;
+    private Class<T> clazz;
 
+    @SuppressWarnings("unchecked")
     public AbstractDefParser() {
         clazz = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
@@ -43,19 +42,8 @@ public abstract class AbstractDefParser<T> {
     }
 
     public T parse(String name, InputStream in) throws IOException {
-        Digester dig = createDig();
-        try {
-            Object resultObj = dig.parse(in);
-
-            if (clazz.isInstance(resultObj) ) {
-                T def = clazz.cast(resultObj);
-                processName(name, def);
-                return def;
-            }
-            throw new RuntimeException("Failed to parse entity :"+name);
-        } catch (SAXException e) {
-            throw new RuntimeException("Failed to parse because xml error in entity :"+name,e);
-        }
+        T result = parseWithJaxb(name, in);
+        return result;
     }
     public T parseWithJaxb(String name, InputStream in) throws IOException {
         try {
@@ -75,5 +63,4 @@ public abstract class AbstractDefParser<T> {
 
     abstract protected void processName(String name, T def);
 
-    protected abstract Digester createDig();
 }
